@@ -51,6 +51,9 @@ public class User {
     @Column(nullable = false)
     private String professor;
 
+    @Column(columnDefinition = "TEXT")
+    private String refreshToken;
+
     @CreationTimestamp
     @Column
     private LocalDateTime createdAt;
