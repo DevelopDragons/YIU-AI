@@ -23,6 +23,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -31,6 +32,7 @@ import devdragons.yiuServer.security.JwtProvider;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@Component
 public class SecurityConfig {
     private final JwtProvider jwtProvider;
 
