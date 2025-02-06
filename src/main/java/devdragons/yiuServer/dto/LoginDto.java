@@ -1,18 +1,19 @@
-package devdragons.yiuServer.dto.request;
+package devdragons.yiuServer.dto;
 
 import devdragons.yiuServer.domain.state.UserEntranceCategory;
 import devdragons.yiuServer.domain.state.UserRoleCategory;
 import devdragons.yiuServer.domain.state.UserStatusCategory;
 import devdragons.yiuServer.domain.state.UserTrackCategory;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
-@Setter
-public class UserRequestDto {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+public class LoginDto {
     private String id;
     private String name;
-    private String pwd;
     private Integer grade;
     private UserRoleCategory role;
     private UserStatusCategory status;
@@ -21,19 +22,5 @@ public class UserRequestDto {
     private UserTrackCategory track;
     private UserEntranceCategory entrance;
     private String professor;
-
-    public String getString() {
-        String str = id;
-        str += " " + name;
-        str += " " + pwd;
-        str += " " + grade;
-        str += " " + role;
-        str += " " + status;
-        str += " " + major;
-        str += " " + department;
-        str += " " + track;
-        str += " " + entrance;
-        str += " " + professor;
-        return str;
-    }
+    private TokenDto token;
 }
