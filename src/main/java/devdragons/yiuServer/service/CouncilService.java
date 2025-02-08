@@ -1,6 +1,7 @@
 package devdragons.yiuServer.service;
 
 import devdragons.yiuServer.domain.Council;
+import devdragons.yiuServer.domain.Files;
 import devdragons.yiuServer.domain.state.FileType;
 import devdragons.yiuServer.dto.request.CouncilRequestDto;
 import devdragons.yiuServer.dto.request.FileRequestDto;
@@ -8,6 +9,7 @@ import devdragons.yiuServer.dto.response.CouncilResponseDto;
 import devdragons.yiuServer.exception.CustomException;
 import devdragons.yiuServer.exception.ErrorCode;
 import devdragons.yiuServer.repository.CouncilRepository;
+import devdragons.yiuServer.repository.FilesRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +28,7 @@ import java.util.function.Predicate;
 public class CouncilService {
     private final CouncilRepository councilRepository;
     private final FileService fileService;
+    private final FilesRepository filesRepository;
 
     /*
      * @description 학생회 등록
@@ -102,6 +105,20 @@ public class CouncilService {
             council.setDescription(requestDto.getDescription());
             council.setUpdatedAt(LocalDateTime.now());
 
+            // 기존 파일 삭제(disk)
+            List<Files> deleteFiles = filesRepository.findAllByTypeAndTypeId(FileType.COUNCIL, id);
+            System.out.println("deleteFiles = " + deleteFiles);
+
+            // 기존 파일 삭제(db)
+            filesRepository.deleteAllByTypeAndTypeId(FileType.COUNCIL, id);
+
+            // 수정 파일 업로드
+            List<FileRequestDto> thumnails = fileService.uploadFiles(requestDto.getThumbnails());
+            List<FileRequestDto> people = fileService.uploadFiles(requestDto.getPeople());
+
+            fileService.saveFiles(FileType.COUNCIL, id, "thumnail", thumnails);
+            fileService.saveFiles(FileType.COUNCIL, id, "people", people);
+
             councilRepository.save(council);
             return true;
         } catch (Exception e) {
@@ -120,6 +137,13 @@ public class CouncilService {
                 new CustomException(ErrorCode.NOT_EXIST_ID));
 
         try {
+            // 기존 파일 삭제(disk)
+            List<Files> deleteFiles = filesRepository.findAllByTypeAndTypeId(FileType.COUNCIL, id);
+            fileService.deleteFiles(deleteFiles);
+
+            // 기존 파일 삭제(db)
+            filesRepository.deleteAllByTypeAndTypeId(FileType.COUNCIL, id);
+
             councilRepository.delete(council);
             return true;
         } catch (Exception e) {

@@ -33,7 +33,7 @@ public class CouncilController {
     }
 
     // 학생회 수정
-    @PutMapping(value = "/admin", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PutMapping(value = "/admin", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Boolean> updateCouncil(@RequestParam(name = "id") Integer id, CouncilRequestDto requestDto) throws Exception {
         return new ResponseEntity<>(councilService.updateCouncil(id, requestDto), HttpStatus.OK);
     }
