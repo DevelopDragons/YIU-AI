@@ -109,10 +109,10 @@ class MainServiceTest {
         String id = "202033009";
 
         // when
-        int authNum = mainService.sendEmailWhenRegister(id);
+        String authNum = mainService.sendEmailWhenRegister(id);
 
         // then
-        assertThat(authNum).isGreaterThanOrEqualTo(100000).isLessThanOrEqualTo(999999);
+        assertThat(authNum.length()).isEqualTo(6);
     }
 
     @Test
@@ -135,10 +135,10 @@ class MainServiceTest {
         mainService.register(userRequestDto);
 
         // when
-        int authNum = mainService.sendEmailWhenPwdChange(userRequestDto.getId());
+        String authNum = mainService.sendEmailWhenPwdChange(userRequestDto.getId());
 
         // then
-        assertThat(authNum).isGreaterThanOrEqualTo(100000).isLessThanOrEqualTo(999999);
+        assertThat(authNum.length()).isEqualTo(6);
     }
 
     @Test
