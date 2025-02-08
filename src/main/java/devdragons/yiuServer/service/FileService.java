@@ -31,6 +31,7 @@ public class FileService {
     private final FilesRepository fileRepository;
 
     private final String uploadPath = Paths.get("/Users", "yeseokim", "dev", "upload-files").toString();
+    private final FilesRepository filesRepository;
 
 
     /*
@@ -154,5 +155,40 @@ public class FileService {
             dir.mkdirs();
         }
         return dir.getPath();
+    }
+
+    /*
+     * @description 파일 삭제
+     * @author 김예서
+     * @param files
+     * */
+    public void deleteFiles(List<Files> files) {
+        if(CollectionUtils.isEmpty(files)) {
+            return;
+        }
+        for(Files file : files) {
+            String uploadedDate = file.getCreatedAt().toLocalDate().format(DateTimeFormatter.ofPattern("yyMMdd"));
+            deleteFile(uploadedDate, file.getSaveName());
+        }
+    }
+
+    /*
+     * @description 파일 삭제(from disk)
+     * @author 김예서
+     * @param fileName, addPath
+     * */
+    public void deleteFile(String addPath, String fileName) {
+        String filePath = Paths.get(uploadPath, addPath, fileName).toString();
+        deleteFile(filePath);
+    }
+
+    /*
+     * @description 파일 삭제(from disk)
+     * @author 김예서
+     * @param filePath
+     * */
+    private void deleteFile(String filePath) {
+        File file = new File(filePath);
+        file.delete();
     }
 }
