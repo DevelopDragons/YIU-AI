@@ -1,6 +1,7 @@
 package devdragons.yiuServer.controller;
 
 import devdragons.yiuServer.dto.LoginDto;
+import devdragons.yiuServer.dto.TokenDto;
 import devdragons.yiuServer.dto.request.UserRequestDto;
 import devdragons.yiuServer.service.MainService;
 import lombok.RequiredArgsConstructor;
@@ -43,5 +44,11 @@ public class MainController {
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<LoginDto> login(UserRequestDto request) throws Exception {
         return new ResponseEntity<>(mainService.login(request), HttpStatus.OK);
+    }
+
+    // accessToken 재발급
+    @PostMapping(value = "/token/refresh", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<TokenDto> getTokens(TokenDto request) throws Exception {
+        return new ResponseEntity<>(mainService.getNewTokens(request), HttpStatus.OK);
     }
 }
