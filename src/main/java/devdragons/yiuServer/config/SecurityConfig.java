@@ -57,7 +57,7 @@ public class SecurityConfig {
                         configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/login", "/register", "/register/email", "/pwd/email", "/pwd/change", "/token/refresh", "/main").permitAll()
+                        .requestMatchers("/login", "/register", "/register/email", "/pwd/email", "/pwd/change", "/token/refresh", "/main", "/council").permitAll()
                         .requestMatchers("/council/admin").hasAnyRole("ADMIN", "SUPER")
                         .anyRequest().authenticated())
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider),
