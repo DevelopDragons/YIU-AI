@@ -38,7 +38,7 @@ public class MainService {
     private final JwtProvider jwtProvider;
     private final TokenRepository tokenRepository;
 
-    private int authNum;
+    private String authNum;
 
     private long expRefreshToken = Duration.ofDays(14).toMillis();
 
@@ -97,7 +97,7 @@ public class MainService {
      * @param id
      * @return
      * */
-    public int sendEmailWhenRegister(String id) throws MessagingException, UnsupportedEncodingException {
+    public String sendEmailWhenRegister(String id) throws MessagingException, UnsupportedEncodingException {
         // 데이터 미입력
         if(id.isEmpty()) throw new CustomException(ErrorCode.INSUFFICIENT_DATA);
 
@@ -121,7 +121,7 @@ public class MainService {
      * @param id
      * @return
      * */
-    public int sendEmailWhenPwdChange(String id) throws MessagingException, UnsupportedEncodingException {
+    public String sendEmailWhenPwdChange(String id) throws MessagingException, UnsupportedEncodingException {
         // 데이터 미입력
         if(id.isEmpty()) throw new CustomException(ErrorCode.INSUFFICIENT_DATA);
 
@@ -296,7 +296,7 @@ public class MainService {
         for(int i=0; i<6; i++)
             key.append(random.nextInt(9));
 
-        authNum = Integer.parseInt(key.toString());
+        authNum = key.toString();
     }
 
     public String createRefreshToken(User user) {

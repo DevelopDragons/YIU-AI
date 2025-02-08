@@ -23,13 +23,13 @@ public class MainController {
 
     // 회원가입 시 이메일 인증
     @PostMapping(value = "/register/email", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<Integer> sendEmailWhenRegister(UserRequestDto request) throws Exception {
+    public ResponseEntity<String> sendEmailWhenRegister(UserRequestDto request) throws Exception {
         return new ResponseEntity<>(mainService.sendEmailWhenRegister(request.getId()), HttpStatus.OK);
     }
 
     // 비밀번호 변경 시 이메일 인증
     @PostMapping(value = "/pwd/email", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<Integer> sendEmailWhenPwdChange(UserRequestDto request) throws Exception {
+    public ResponseEntity<String> sendEmailWhenPwdChange(UserRequestDto request) throws Exception {
         return new ResponseEntity<>(mainService.sendEmailWhenPwdChange(request.getId()), HttpStatus.OK);
     }
 
