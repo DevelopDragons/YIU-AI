@@ -10,13 +10,13 @@ import devdragons.yiuServer.exception.ErrorCode;
 import devdragons.yiuServer.repository.TokenRepository;
 import devdragons.yiuServer.repository.UserRepository;
 import devdragons.yiuServer.security.JwtProvider;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -209,6 +209,39 @@ public class MainService {
     }
 
     /*
+     * @description accessToken 재발급
+     * @author 김예서
+     * @param accessToken, refreshToken
+     * @return
+     * */
+    public TokenDto getNewTokens(TokenDto requestDto) throws Exception {
+        String id = null;
+        try {
+            id = jwtProvider.getId(requestDto.getAccessToken());
+        } catch (ExpiredJwtException e) {
+            id = e.getClaims().get("id", String.class);
+        }
+
+        User user = userRepository.findById(id).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_EXIST_ID));
+
+        Token refreshToken = validRefreshToken(user, requestDto.getRefreshToken());
+
+        try {
+            if(refreshToken != null) {
+                return TokenDto.builder()
+                        .accessToken(jwtProvider.createToken(user))
+                        .refreshToken(refreshToken.getRefreshToken())
+                        .build();
+            } else {
+                throw new CustomException(ErrorCode.LOGIN_REQUIRED);
+            }
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /*
      * @description 메일 양식 작성
      * @author 김예서
      * @param email
@@ -275,5 +308,28 @@ public class MainService {
                         .build()
         );
         return token.getRefreshToken();
+    }
+
+    public Token validRefreshToken(User user, String refreshToken) throws Exception {
+        Token token = tokenRepository.findById(user.getId())
+                .orElseThrow(() -> new CustomException(ErrorCode.LOGIN_REQUIRED));
+        // 해당유저의 Refresh 토큰 만료 : Redis에 해당 유저의 토큰이 존재하지 않음
+        if (token.getRefreshToken() == null) throw new CustomException(ErrorCode.REFRESH_TOKEN_EXPIRED);
+        try {
+            // 리프레시 토큰 만료일자가 얼마 남지 않았을 때 만료시간 연장
+            if (token.getExpiration() < 10) {
+                token.setExpiration(1000L);
+                tokenRepository.save(token);
+            }
+            // 토큰이 같은지 비교
+            if (!token.getRefreshToken().equals(refreshToken)) {
+                // 원래 null
+                throw new CustomException(ErrorCode.LOGIN_REQUIRED);
+            } else {
+                return token;
+            }
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
+        }
     }
 }
