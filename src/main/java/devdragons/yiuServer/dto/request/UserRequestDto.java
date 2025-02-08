@@ -21,19 +21,4 @@ public class UserRequestDto {
     private UserTrackCategory track;
     private UserEntranceCategory entrance;
     private String professor;
-
-    public String getString() {
-        String str = id;
-        str += " " + name;
-        str += " " + pwd;
-        str += " " + grade;
-        str += " " + role;
-        str += " " + status;
-        str += " " + major;
-        str += " " + department;
-        str += " " + track;
-        str += " " + entrance;
-        str += " " + professor;
-        return str;
-    }
 }
