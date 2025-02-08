@@ -28,19 +28,19 @@ public class CouncilController {
 
     // 학생회 등록
     @PostMapping(value = "/admin", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<Boolean> addCouncil(@RequestParam CouncilRequestDto requestDto) throws Exception {
+    public ResponseEntity<Boolean> addCouncil(CouncilRequestDto requestDto) throws Exception {
         return new ResponseEntity<>(councilService.createCouncil(requestDto), HttpStatus.OK);
     }
 
     // 학생회 수정
     @PutMapping(value = "/admin", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<Boolean> updateCouncil(@RequestParam Integer id, @RequestParam CouncilRequestDto requestDto) throws Exception {
+    public ResponseEntity<Boolean> updateCouncil(@RequestParam(name = "id") Integer id, CouncilRequestDto requestDto) throws Exception {
         return new ResponseEntity<>(councilService.updateCouncil(id, requestDto), HttpStatus.OK);
     }
 
     // 학생회 삭제
-    @DeleteMapping(value = "/admin", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<Boolean> deleteCouncil(@RequestParam Integer id) throws Exception {
+    @DeleteMapping(value = "/admin")
+    public ResponseEntity<Boolean> deleteCouncil(@RequestParam(name = "id") Integer id) throws Exception {
         return new ResponseEntity<>(councilService.deleteCouncil(id), HttpStatus.OK);
     }
 }
