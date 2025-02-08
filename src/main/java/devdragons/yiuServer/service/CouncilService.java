@@ -1,7 +1,9 @@
 package devdragons.yiuServer.service;
 
 import devdragons.yiuServer.domain.Council;
+import devdragons.yiuServer.domain.state.FileType;
 import devdragons.yiuServer.dto.request.CouncilRequestDto;
+import devdragons.yiuServer.dto.request.FileRequestDto;
 import devdragons.yiuServer.dto.response.CouncilResponseDto;
 import devdragons.yiuServer.exception.CustomException;
 import devdragons.yiuServer.exception.ErrorCode;
@@ -23,6 +25,7 @@ import java.util.function.Predicate;
 @Slf4j
 public class CouncilService {
     private final CouncilRepository councilRepository;
+    private final FileService fileService;
 
     /*
      * @description 학생회 등록
@@ -54,9 +57,17 @@ public class CouncilService {
                     .updatedAt(LocalDateTime.now())
                     .build();
 
-            councilRepository.save(council);
+            Council savedCouncil = councilRepository.save(council);
+
+            List<FileRequestDto> thumnails = fileService.uploadFiles(requestDto.getThumbnails());
+            List<FileRequestDto> people = fileService.uploadFiles(requestDto.getPeople());
+
+            fileService.saveFiles(FileType.COUNCIL, savedCouncil.getId(), "thumnail", thumnails);
+            fileService.saveFiles(FileType.COUNCIL, savedCouncil.getId(), "people", people);
+
             return true;
         } catch (Exception e) {
+            log.error(e.getMessage());
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
         }
     }

@@ -27,7 +27,7 @@ public class CouncilController {
     }
 
     // 학생회 등록
-    @PostMapping(value = "/admin", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PostMapping(value = "/admin", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Boolean> addCouncil(CouncilRequestDto requestDto) throws Exception {
         return new ResponseEntity<>(councilService.createCouncil(requestDto), HttpStatus.OK);
     }
