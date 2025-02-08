@@ -127,7 +127,7 @@ public class MainService {
 
         // 회원 미존재
         if(!userRepository.existsById(id)) {
-            throw new CustomException(ErrorCode.NOT_EXIST_ID);
+            throw new CustomException(ErrorCode.NOT_EXIST_MEMBER);
         }
 
         // 메일 전송에 필요한 정보 설정(@yiu.ac.kr)
@@ -150,7 +150,7 @@ public class MainService {
         if(requestDto.getPwd().isEmpty()) throw new CustomException(ErrorCode.INSUFFICIENT_DATA);
 
         User user = userRepository.findById(requestDto.getId()).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_EXIST_ID));
+                new CustomException(ErrorCode.NOT_EXIST_MEMBER));
 
         try {
             user.setPwd(passwordEncoder.encode(requestDto.getPwd()));
@@ -173,7 +173,7 @@ public class MainService {
 
         // 회원 정보 없음
         User user = userRepository.findById(requestDto.getId()).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_EXIST_ID)
+                new CustomException(ErrorCode.NOT_EXIST_MEMBER)
         );
 
         // 회원정보 불일치
@@ -195,6 +195,7 @@ public class MainService {
                     .track(user.getTrack())
                     .entrance(user.getEntrance())
                     .entrance(user.getEntrance())
+                    .professor(user.getProfessor())
                     .token(TokenDto.builder()
                             .accessToken(accessToken)
                             .refreshToken(user.getRefreshToken())
@@ -223,7 +224,7 @@ public class MainService {
         }
 
         User user = userRepository.findById(id).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_EXIST_ID));
+                new CustomException(ErrorCode.NOT_EXIST_MEMBER));
 
         Token refreshToken = validRefreshToken(user, requestDto.getRefreshToken());
 
