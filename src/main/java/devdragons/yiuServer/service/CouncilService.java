@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -65,7 +66,7 @@ public class CouncilService {
             List<FileRequestDto> thumnails = fileService.uploadFiles(requestDto.getThumbnails());
             List<FileRequestDto> people = fileService.uploadFiles(requestDto.getPeople());
 
-            fileService.saveFiles(FileType.COUNCIL, savedCouncil.getId(), "thumnail", thumnails);
+            fileService.saveFiles(FileType.COUNCIL, savedCouncil.getId(), "thumbnail", thumnails);
             fileService.saveFiles(FileType.COUNCIL, savedCouncil.getId(), "people", people);
 
             return true;
@@ -116,7 +117,7 @@ public class CouncilService {
             List<FileRequestDto> thumnails = fileService.uploadFiles(requestDto.getThumbnails());
             List<FileRequestDto> people = fileService.uploadFiles(requestDto.getPeople());
 
-            fileService.saveFiles(FileType.COUNCIL, id, "thumnail", thumnails);
+            fileService.saveFiles(FileType.COUNCIL, id, "thumbnail", thumnails);
             fileService.saveFiles(FileType.COUNCIL, id, "people", people);
 
             councilRepository.save(council);
@@ -158,10 +159,18 @@ public class CouncilService {
      * */
     public List<CouncilResponseDto> getCouncil() throws Exception {
         List<Council> councils = councilRepository.findAll();
+        List<Files> thumbnails = filesRepository.findAllByTypeAndCategory(FileType.COUNCIL, "thumbnail");
+        List<Files> people = filesRepository.findAllByTypeAndCategory(FileType.COUNCIL, "people");
 
         List<CouncilResponseDto> getListDto = new ArrayList<>();
         for(Council council : councils) {
-            getListDto.add(CouncilResponseDto.GetCouncilDto(council));
+            List<Files> filteredThumbnails = thumbnails.stream()
+                            .filter(files -> files.getTypeId().equals(council.getId()))
+                            .collect(Collectors.toList());
+            List<Files> filteredPeople = people.stream()
+                            .filter(files -> files.getTypeId().equals(council.getId()))
+                            .collect(Collectors.toList());
+            getListDto.add(CouncilResponseDto.GetCouncilDto(council, filteredThumbnails, filteredPeople));
         }
 
         return getListDto;
