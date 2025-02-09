@@ -110,6 +110,7 @@ public class CouncilService {
             if(requestDto.getThumbnails() != null || requestDto.getPeople() != null) {
                 // 기존 파일 삭제(disk)
                 List<Files> deleteFiles = filesRepository.findAllByTypeAndTypeId(FileType.COUNCIL, id);
+                fileService.deleteFiles(deleteFiles);
 
                 // 기존 파일 삭제(db)
                 filesRepository.deleteAllByTypeAndTypeId(FileType.COUNCIL, id);
