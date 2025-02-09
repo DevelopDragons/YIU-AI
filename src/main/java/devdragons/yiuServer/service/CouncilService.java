@@ -63,12 +63,13 @@ public class CouncilService {
 
             Council savedCouncil = councilRepository.save(council);
 
-            List<FileRequestDto> thumnails = fileService.uploadFiles(requestDto.getThumbnails());
-            List<FileRequestDto> people = fileService.uploadFiles(requestDto.getPeople());
+            if(requestDto.getThumbnails() != null || requestDto.getPeople() != null) {
+                List<FileRequestDto> thumbnails = fileService.uploadFiles(requestDto.getThumbnails());
+                List<FileRequestDto> people = fileService.uploadFiles(requestDto.getPeople());
 
-            fileService.saveFiles(FileType.COUNCIL, savedCouncil.getId(), "thumbnail", thumnails);
-            fileService.saveFiles(FileType.COUNCIL, savedCouncil.getId(), "people", people);
-
+                fileService.saveFiles(FileType.COUNCIL, savedCouncil.getId(), "thumbnail", thumbnails);
+                fileService.saveFiles(FileType.COUNCIL, savedCouncil.getId(), "people", people);
+            }
             return true;
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -106,20 +107,20 @@ public class CouncilService {
             council.setDescription(requestDto.getDescription());
             council.setUpdatedAt(LocalDateTime.now());
 
-            // 기존 파일 삭제(disk)
-            List<Files> deleteFiles = filesRepository.findAllByTypeAndTypeId(FileType.COUNCIL, id);
-            System.out.println("deleteFiles = " + deleteFiles);
+            if(requestDto.getThumbnails() != null || requestDto.getPeople() != null) {
+                // 기존 파일 삭제(disk)
+                List<Files> deleteFiles = filesRepository.findAllByTypeAndTypeId(FileType.COUNCIL, id);
 
-            // 기존 파일 삭제(db)
-            filesRepository.deleteAllByTypeAndTypeId(FileType.COUNCIL, id);
+                // 기존 파일 삭제(db)
+                filesRepository.deleteAllByTypeAndTypeId(FileType.COUNCIL, id);
 
-            // 수정 파일 업로드
-            List<FileRequestDto> thumnails = fileService.uploadFiles(requestDto.getThumbnails());
-            List<FileRequestDto> people = fileService.uploadFiles(requestDto.getPeople());
+                // 수정 파일 업로드
+                List<FileRequestDto> thumbnails = fileService.uploadFiles(requestDto.getThumbnails());
+                List<FileRequestDto> people = fileService.uploadFiles(requestDto.getPeople());
 
-            fileService.saveFiles(FileType.COUNCIL, id, "thumbnail", thumnails);
-            fileService.saveFiles(FileType.COUNCIL, id, "people", people);
-
+                fileService.saveFiles(FileType.COUNCIL, id, "thumbnail", thumbnails);
+                fileService.saveFiles(FileType.COUNCIL, id, "people", people);
+            }
             councilRepository.save(council);
             return true;
         } catch (Exception e) {
