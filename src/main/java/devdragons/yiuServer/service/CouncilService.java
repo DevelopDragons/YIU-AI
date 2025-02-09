@@ -35,7 +35,7 @@ public class CouncilService {
      * @description 학생회 등록
      * @author 김예서
      * @param name, link, year, slogan, description
-     * @return
+     * @return Boolean
      * */
     public Boolean createCouncil(CouncilRequestDto requestDto) throws Exception {
         Predicate<Object> isNullOrEmpty = field ->
@@ -81,7 +81,7 @@ public class CouncilService {
      * @description 학생회 수정
      * @author 김예서
      * @param id, name, link, year, slogan, description
-     * @return
+     * @return Boolean
      * */
     public Boolean updateCouncil(Integer id, CouncilRequestDto requestDto) throws Exception {
         Council council = councilRepository.findById(id).orElseThrow(() ->
@@ -132,7 +132,7 @@ public class CouncilService {
      * @description 학생회 삭제
      * @author 김예서
      * @param id
-     * @return
+     * @return Boolean
      * */
     public Boolean deleteCouncil(Integer id) throws Exception {
         Council council = councilRepository.findById(id).orElseThrow(() ->
@@ -156,7 +156,7 @@ public class CouncilService {
     /*
      * @description 학생회 조회
      * @author 김예서
-     * @return
+     * @return List<CouncilResponseDto>
      * */
     public List<CouncilResponseDto> getCouncil() throws Exception {
         List<Council> councils = councilRepository.findAll();
