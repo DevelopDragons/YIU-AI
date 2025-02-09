@@ -105,6 +105,7 @@ public class NewsService {
 
             if(requestDto.getThumbnail() != null || requestDto.getGallery() != null || requestDto.getFile() != null) {
                 List<Files> deleteFiles = filesRepository.findAllByTypeAndTypeId(FileType.NEWS, id);
+                fileService.deleteFiles(deleteFiles);
 
                 filesRepository.deleteAllByTypeAndTypeId(FileType.NEWS, id);
 
