@@ -48,6 +48,7 @@ class NewsServiceTest {
 
         // then
         Optional<News> news = newsRepository.findByTitle("title");
+        assertTrue(news.isPresent());
     }
 
     @Test
