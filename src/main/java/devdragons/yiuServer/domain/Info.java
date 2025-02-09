@@ -2,6 +2,10 @@ package devdragons.yiuServer.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -10,7 +14,11 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Info {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true)
+    private Integer id;
+
+    @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)
@@ -36,4 +44,12 @@ public class Info {
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String contents;
+
+    @CreationTimestamp
+    @Column
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column
+    private LocalDateTime updatedAt;
 }
