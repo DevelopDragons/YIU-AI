@@ -48,6 +48,10 @@ class InfoServiceTest {
         infoRequestDto.setGreeting("greeting");
         infoRequestDto.setTitle("title");
         infoRequestDto.setContents("contents");
+        infoRequestDto.setSlogan("slogan");
+        infoRequestDto.setIntroduce("introduce");
+        infoRequestDto.setSlogan("slogan");
+        infoRequestDto.setIntroduce("introduce");
 
         // when
         infoService.createInfo(infoRequestDto);
@@ -84,6 +88,8 @@ class InfoServiceTest {
                 .greeting("greeting")
                 .title("title")
                 .contents("contents")
+                .slogan("slogan")
+                .introduce("introduce")
                 .build();
 
         Info savesInfo = infoRepository.save(info);
@@ -97,6 +103,8 @@ class InfoServiceTest {
         infoRequestDto.setGreeting("greeting");
         infoRequestDto.setTitle("title");
         infoRequestDto.setContents("내용");
+        infoRequestDto.setSlogan("slogan");
+        infoRequestDto.setIntroduce("introduce");
 
         // when
         infoService.updateInfo(savesInfo.getId(), infoRequestDto);
@@ -120,6 +128,8 @@ class InfoServiceTest {
                 .greeting("greeting")
                 .title("title")
                 .contents("contents")
+                .slogan("slogan")
+                .introduce("introduce")
                 .build();
 
         Info savesInfo = infoRepository.save(info);
@@ -146,6 +156,8 @@ class InfoServiceTest {
                 .greeting("greeting")
                 .title("title")
                 .contents("contents")
+                .slogan("slogan")
+                .introduce("introduce")
                 .build();
 
         Info savesInfo = infoRepository.save(info);
@@ -183,6 +195,8 @@ class InfoServiceTest {
         infoRequestDto.setGreeting("greeting");
         infoRequestDto.setTitle("title");
         infoRequestDto.setContents("내용");
+        infoRequestDto.setSlogan("slogan");
+        infoRequestDto.setIntroduce("introduce");
         infoService.createInfo(infoRequestDto);
 
         InfoRequestDto infoRequestDto2 = new InfoRequestDto();
@@ -195,6 +209,8 @@ class InfoServiceTest {
         infoRequestDto2.setGreeting("greeting");
         infoRequestDto2.setTitle("title");
         infoRequestDto2.setContents("내용");
+        infoRequestDto2.setSlogan("slogan");
+        infoRequestDto2.setIntroduce("introduce");
         infoService.createInfo(infoRequestDto2);
 
         // when
