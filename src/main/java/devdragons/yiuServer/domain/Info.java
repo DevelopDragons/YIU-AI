@@ -45,6 +45,12 @@ public class Info {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String contents;
 
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String slogan;
+
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String introduce;
+
     @CreationTimestamp
     @Column
     private LocalDateTime createdAt;

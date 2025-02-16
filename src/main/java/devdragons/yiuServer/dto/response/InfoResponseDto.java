@@ -26,10 +26,13 @@ public class InfoResponseDto {
     private String title;
     private String contents;
     private List<FileResponseDto> image;
+    private String slogan;
+    private String introduce;
+    private List<FileResponseDto> introduceImage;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public static InfoResponseDto GetInfoDto(Info info, List<Files> bossImage, List<Files> image) {
+    public static InfoResponseDto GetInfoDto(Info info, List<Files> bossImage, List<Files> image, List<Files> introduceImage) {
         List<FileResponseDto> bossImageDto = bossImage.stream()
                 .map(files -> new FileResponseDto(
                         files.getId(),
@@ -56,6 +59,19 @@ public class InfoResponseDto {
                 ))
                 .collect(Collectors.toList());
 
+        List<FileResponseDto> introduceImageDto = introduceImage.stream()
+                .map(files -> new FileResponseDto(
+                        files.getId(),
+                        files.getType(),
+                        files.getTypeId(),
+                        files.getCategory(),
+                        files.getOriginName(),
+                        files.getSaveName(),
+                        files.getSize(),
+                        files.getCreatedAt()
+                ))
+                .collect(Collectors.toList());
+
         return new InfoResponseDto(
                 info.getName(),
                 info.getEngName(),
@@ -68,6 +84,9 @@ public class InfoResponseDto {
                 info.getTitle(),
                 info.getContents(),
                 imageDto,
+                info.getSlogan(),
+                info.getIntroduce(),
+                introduceImageDto,
                 info.getCreatedAt(),
                 info.getUpdatedAt()
         );

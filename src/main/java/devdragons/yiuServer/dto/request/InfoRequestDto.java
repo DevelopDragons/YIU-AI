@@ -20,4 +20,7 @@ public class InfoRequestDto {
     private String title;
     private String contents;
     private List<MultipartFile> image;
+    private String slogan;
+    private String introduce;
+    private List<MultipartFile> introduceImage;
 }
