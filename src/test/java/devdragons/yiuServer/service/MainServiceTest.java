@@ -150,7 +150,7 @@ class MainServiceTest {
         // when & then
         CustomException customException = assertThrows(CustomException.class, () -> mainService.sendEmailWhenPwdChange(id));
 
-        assertThat(customException.getErrorCode()).isEqualTo(ErrorCode.NOT_EXIST_ID);
+        assertThat(customException.getErrorCode()).isEqualTo(ErrorCode.NOT_EXIST_MEMBER);
         assertThat(customException.getErrorCode().getStatus()).isEqualTo(404);
     }
 
