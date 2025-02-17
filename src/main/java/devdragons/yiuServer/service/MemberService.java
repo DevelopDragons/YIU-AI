@@ -36,7 +36,7 @@ public class MemberService {
      * @param name, mail, tel, labName, labLink, labCategory, type, role, description, image, labImage
      * @return member.getId()
      * */
-    public int createMember(MemberRequestDto requestDto) throws Exception {
+    public Boolean createMember(MemberRequestDto requestDto) throws Exception {
         Predicate<Object> isNullOrEmpty = field ->
                 field == null || (field instanceof String && ((String) field).isEmpty());
 
@@ -73,7 +73,7 @@ public class MemberService {
                 fileService.saveFiles(FileType.MEMBER, savedMember.getId(), "labImage", labImage);
             }
 
-            return savedMember.getId();
+            return true;
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);

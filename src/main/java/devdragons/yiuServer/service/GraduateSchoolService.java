@@ -35,9 +35,9 @@ public class GraduateSchoolService {
      * @description 대학원 등록
      * @author 김예서
      * @param name, slogan, image
-     * @return int
+     * @return Boolean
      * */
-    public int createGraduateSchool(GraduateSchoolRequestDto requestDto) throws Exception {
+    public Boolean createGraduateSchool(GraduateSchoolRequestDto requestDto) throws Exception {
         Predicate<Object> isNullOrEmpty = field ->
                 field == null || (field instanceof String && ((String) field).isEmpty());
 
@@ -63,7 +63,7 @@ public class GraduateSchoolService {
                 List<FileRequestDto> images = fileService.uploadFiles(requestDto.getImage());
                 fileService.saveFiles(FileType.GRADUATESCHOOL, savedGraduateSchool.getId(), "image", images);
             }
-            return savedGraduateSchool.getId();
+            return true;
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);

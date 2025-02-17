@@ -28,9 +28,9 @@ public class MicroDegreeService {
      * @description md 등록
      * @author 김예서
      * @param name, title, description, required, category
-     * @return int
+     * @return Boolean
      * */
-    public int createMd(MicroDegreeRequestDto requestDto) throws Exception {
+    public Boolean createMd(MicroDegreeRequestDto requestDto) throws Exception {
         Predicate<Object> isNullOrEmpty = field ->
                 field == null || (field instanceof String && ((String) field).isEmpty());
 
@@ -54,7 +54,9 @@ public class MicroDegreeService {
                     .updatedAt(LocalDateTime.now())
                     .build();
 
-            return microDegreeRepository.save(microDegree).getId();
+            microDegreeRepository.save(microDegree);
+
+            return true;
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
