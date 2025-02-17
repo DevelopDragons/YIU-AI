@@ -52,10 +52,11 @@ class MemberServiceTest {
         dto.setDescription("description");
 
         // when
-        int savedMemberId = memberService.createMember(dto);
+        memberService.createMember(dto);
 
         // then
-        assertEquals(savedMemberId, memberRepository.findById(savedMemberId).get().getId());
+        Optional<Member> savedMember = memberRepository.findByName("name");
+        assertTrue(memberRepository.findById(savedMember.get().getId()).isPresent());
     }
 
     @Test
@@ -79,8 +80,22 @@ class MemberServiceTest {
     @DisplayName("member 수정 성공 테스트")
     void member수정_성공() throws Exception {
         // given
+        Member member = Member.builder()
+                .name("name")
+                .mail("mail")
+                .tel("tel")
+                .labName("labName")
+                .labLink("labLink")
+                .labCategory("labCategory")
+                .type(ProfessorTypeCategory.FULL_TIME)
+                .role(MemberRoleCategory.ASSISTANT)
+                .description("description")
+                .build();
+        int savedMemberId = memberRepository.save(member).getId();
+
+        // when
         MemberRequestDto dto = new MemberRequestDto();
-        dto.setName("name");
+        dto.setName("이름");
         dto.setMail("mail");
         dto.setTel("tel");
         dto.setLabName("labName");
@@ -89,33 +104,30 @@ class MemberServiceTest {
         dto.setType(ProfessorTypeCategory.FULL_TIME);
         dto.setRole(MemberRoleCategory.ASSISTANT);
         dto.setDescription("description");
-        int savedMemberId = memberService.createMember(dto);
-
-        // when
-        dto.setName("이름");
         memberService.updateMember(savedMemberId, dto);
 
         // then
-        Optional<Member> member = memberRepository.findById(savedMemberId);
-        assertTrue(member.get().getName().equals("이름"));
+        assertTrue(memberRepository.findById(savedMemberId).get().getName().equals("이름"));
     }
 
     @Test
     @DisplayName("member 수정 실패 테스트 - 데이터 부족")
     void member수정_실패_데이터부족() throws Exception {
         // given
-        MemberRequestDto dto = new MemberRequestDto();
-        dto.setName("name");
-        dto.setMail("mail");
-        dto.setTel("tel");
-        dto.setLabName("labName");
-        dto.setLabLink("labLink");
-        dto.setLabCategory("labCategory");
-        dto.setType(ProfessorTypeCategory.FULL_TIME);
-        dto.setRole(MemberRoleCategory.ASSISTANT);
-        dto.setDescription("description");
-        int savedMemberId = memberService.createMember(dto);
+        Member member = Member.builder()
+                .name("name")
+                .mail("mail")
+                .tel("tel")
+                .labName("labName")
+                .labLink("labLink")
+                .labCategory("labCategory")
+                .type(ProfessorTypeCategory.FULL_TIME)
+                .role(MemberRoleCategory.ASSISTANT)
+                .description("description")
+                .build();
+        int savedMemberId = memberRepository.save(member).getId();
 
+        MemberRequestDto dto = new MemberRequestDto();
         dto.setName("");
 
         // when & then
@@ -128,17 +140,18 @@ class MemberServiceTest {
     @DisplayName("member 삭제 성공 테스트")
     void member삭제_성공() throws Exception {
         // given
-        MemberRequestDto dto = new MemberRequestDto();
-        dto.setName("name");
-        dto.setMail("mail");
-        dto.setTel("tel");
-        dto.setLabName("labName");
-        dto.setLabLink("labLink");
-        dto.setLabCategory("labCategory");
-        dto.setType(ProfessorTypeCategory.FULL_TIME);
-        dto.setRole(MemberRoleCategory.ASSISTANT);
-        dto.setDescription("description");
-        int savedMemberId = memberService.createMember(dto);
+        Member member = Member.builder()
+                .name("name")
+                .mail("mail")
+                .tel("tel")
+                .labName("labName")
+                .labLink("labLink")
+                .labCategory("labCategory")
+                .type(ProfessorTypeCategory.FULL_TIME)
+                .role(MemberRoleCategory.ASSISTANT)
+                .description("description")
+                .build();
+        int savedMemberId = memberRepository.save(member).getId();
 
         // when
         memberService.deleteMember(savedMemberId);

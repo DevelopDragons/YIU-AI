@@ -1,5 +1,6 @@
 package devdragons.yiuServer.service;
 
+import devdragons.yiuServer.domain.MicroDegree;
 import devdragons.yiuServer.domain.state.MicroDegreeCategory;
 import devdragons.yiuServer.domain.state.RequiredCategory;
 import devdragons.yiuServer.dto.request.MicroDegreeRequestDto;
@@ -15,7 +16,9 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -46,10 +49,14 @@ class MicroDegreeServiceTest {
         md.setCategory(MicroDegreeCategory.MD);
 
         // when
-        int savedMd = microDegreeService.createMd(md);
+        microDegreeService.createMd(md);
 
         // then
-        assertTrue(microDegreeRepository.findById(savedMd).isPresent());
+        System.out.println(md.getName());
+        System.out.println("savedMd = " + microDegreeRepository.findByName(md.getName()));
+        Optional<MicroDegree> savedMd = microDegreeRepository.findByName(md.getName());
+
+        assertTrue(microDegreeRepository.findById(savedMd.get().getId()).isPresent());
     }
 
     @Test
@@ -71,37 +78,49 @@ class MicroDegreeServiceTest {
     @DisplayName("md 수정 성공 테스트")
     void md수정_성공() throws Exception {
         // given
-        MicroDegreeRequestDto md = new MicroDegreeRequestDto();
-        md.setName("name");
-        md.setTitle("title");
-        md.setDescription("description");
-        md.setRequired(RequiredCategory.REQUIRED);
-        md.setCategory(MicroDegreeCategory.MD);
-        int id = microDegreeService.createMd(md);
+        MicroDegree md = MicroDegree.builder()
+                .title("title")
+                .name("name")
+                .description("description")
+                .required(RequiredCategory.REQUIRED)
+                .category(MicroDegreeCategory.MD)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+        int id = microDegreeRepository.save(md).getId();
 
         // when
-        md.setName("newName");
-        microDegreeService.updateMd(id, md);
+        MicroDegreeRequestDto dto = new MicroDegreeRequestDto();
+        dto.setTitle("title");
+        dto.setName("이름");
+        dto.setDescription("description");
+        dto.setRequired(RequiredCategory.REQUIRED);
+        dto.setCategory(MicroDegreeCategory.MD);
+        microDegreeService.updateMd(id, dto);
 
         // then
-        assertTrue(microDegreeRepository.findById(id).get().getName().equals(md.getName()));
+        assertTrue(microDegreeRepository.findById(id).get().getName().equals(dto.getName()));
     }
 
     @Test
     @DisplayName("md 수정 실패 테스트 - 데이터 부족")
     void md수정_실패_데이터부족() throws Exception {
         // given
-        MicroDegreeRequestDto md = new MicroDegreeRequestDto();
-        md.setName("name");
-        md.setTitle("title");
-        md.setDescription("description");
-        md.setRequired(RequiredCategory.REQUIRED);
-        md.setCategory(MicroDegreeCategory.MD);
-        int id = microDegreeService.createMd(md);
-        md.setName("");
+        MicroDegree md = MicroDegree.builder()
+                .name("name")
+                .title("title")
+                .description("description")
+                .required(RequiredCategory.REQUIRED)
+                .category(MicroDegreeCategory.MD)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+        int id = microDegreeRepository.save(md).getId();
+        MicroDegreeRequestDto dto = new MicroDegreeRequestDto();
+        dto.setName("");
 
         // when & then
-        CustomException customException = assertThrows(CustomException.class, () -> microDegreeService.updateMd(id, md));
+        CustomException customException = assertThrows(CustomException.class, () -> microDegreeService.updateMd(id, dto));
         assertEquals(ErrorCode.INSUFFICIENT_DATA, customException.getErrorCode());
         assertEquals(400, customException.getErrorCode().getStatus());
     }
@@ -110,13 +129,16 @@ class MicroDegreeServiceTest {
     @DisplayName("md삭제 성공 테스트")
     void md삭제_성공() throws Exception {
         // given
-        MicroDegreeRequestDto md = new MicroDegreeRequestDto();
-        md.setName("name");
-        md.setTitle("title");
-        md.setDescription("description");
-        md.setRequired(RequiredCategory.REQUIRED);
-        md.setCategory(MicroDegreeCategory.MD);
-        int id = microDegreeService.createMd(md);
+        MicroDegree md = MicroDegree.builder()
+                .name("name")
+                .title("title")
+                .description("description")
+                .required(RequiredCategory.REQUIRED)
+                .category(MicroDegreeCategory.MD)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+        int id = microDegreeRepository.save(md).getId();
 
         // when
         microDegreeService.deleteMd(id);

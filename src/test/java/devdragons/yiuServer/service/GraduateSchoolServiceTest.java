@@ -1,5 +1,6 @@
 package devdragons.yiuServer.service;
 
+import devdragons.yiuServer.domain.GraduateSchool;
 import devdragons.yiuServer.dto.request.GraduateSchoolRequestDto;
 import devdragons.yiuServer.dto.response.GraduateSchoolResponseDto;
 import devdragons.yiuServer.exception.CustomException;
@@ -13,7 +14,9 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,10 +44,11 @@ class GraduateSchoolServiceTest {
         graduateSchool.setSlogan("slogan");
 
         // when
-        int savedGraduateSchool = graduateSchoolService.createGraduateSchool(graduateSchool);
+        graduateSchoolService.createGraduateSchool(graduateSchool);
 
         // then
-        assertTrue(graduateSchoolRepository.findById(savedGraduateSchool).isPresent());
+        Optional<GraduateSchool> savedGraduateSchool = graduateSchoolRepository.findByName(graduateSchool.getName());
+        assertTrue(graduateSchoolRepository.findById(savedGraduateSchool.get().getId()).isPresent());
     }
 
     @Test
@@ -64,14 +68,20 @@ class GraduateSchoolServiceTest {
     @DisplayName("대학원 수정 성공 테스트")
     void 대학원수정_성공() throws Exception {
         // given
-        GraduateSchoolRequestDto graduateSchool = new GraduateSchoolRequestDto();
-        graduateSchool.setName("name");
-        graduateSchool.setSlogan("slogan");
-        int savedGraduateSchool = graduateSchoolService.createGraduateSchool(graduateSchool);
+        GraduateSchool graduateSchool = GraduateSchool.builder()
+                .name("name")
+                .slogan("slogan")
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+        int savedGraduateSchool = graduateSchoolRepository.save(graduateSchool).getId();
+
+        GraduateSchoolRequestDto dto = new GraduateSchoolRequestDto();
+        dto.setName("newName");
+        dto.setSlogan("newSlogan");
 
         // when
-        graduateSchool.setName("newName");
-        graduateSchoolService.updateGraduateSchool(savedGraduateSchool, graduateSchool);
+        graduateSchoolService.updateGraduateSchool(graduateSchool.getId(), dto);
 
         // then
         assertTrue(graduateSchoolRepository.findById(savedGraduateSchool).get().getName().equals("newName"));
@@ -81,14 +91,19 @@ class GraduateSchoolServiceTest {
     @DisplayName("대학원 수정 실패 테스트 - 데이터 부족")
     void 대학원수정_실패_데이터부족() throws Exception {
         // given
-        GraduateSchoolRequestDto graduateSchool = new GraduateSchoolRequestDto();
-        graduateSchool.setName("name");
-        graduateSchool.setSlogan("slogan");
-        int savedGraduateSchool = graduateSchoolService.createGraduateSchool(graduateSchool);
+        GraduateSchool graduateSchool = GraduateSchool.builder()
+                .name("name")
+                .slogan("slogan")
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+        int savedGraduateSchool = graduateSchoolRepository.save(graduateSchool).getId();
 
-        graduateSchool.setName("");
+        GraduateSchoolRequestDto dto = new GraduateSchoolRequestDto();
+        dto.setName("");
+        dto.setSlogan("newSlogan");
         // when & then
-        CustomException customException = assertThrows(CustomException.class, () -> graduateSchoolService.updateGraduateSchool(savedGraduateSchool, graduateSchool));
+        CustomException customException = assertThrows(CustomException.class, () -> graduateSchoolService.updateGraduateSchool(savedGraduateSchool, dto));
         assertEquals(ErrorCode.INSUFFICIENT_DATA, customException.getErrorCode());
         assertEquals(400, customException.getErrorCode().getStatus());
     }
@@ -97,10 +112,13 @@ class GraduateSchoolServiceTest {
     @DisplayName("대학원 삭제 성공 테스트")
     void 대학원삭제_성공() throws Exception {
         // given
-        GraduateSchoolRequestDto graduateSchool = new GraduateSchoolRequestDto();
-        graduateSchool.setName("name");
-        graduateSchool.setSlogan("slogan");
-        int savedGraduateSchool = graduateSchoolService.createGraduateSchool(graduateSchool);
+        GraduateSchool graduateSchool = GraduateSchool.builder()
+                .name("name")
+                .slogan("slogan")
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+        int savedGraduateSchool = graduateSchoolRepository.save(graduateSchool).getId();
 
         // when
         graduateSchoolService.deleteGraduateSchool(savedGraduateSchool);
