@@ -187,6 +187,7 @@ class MainServiceTest {
                 .department("컴퓨터과학")
                 .track(UserTrackCategory.SINGLE)
                 .entrance(UserEntranceCategory.FRESH)
+                .professor("이완주")
                 .token(loginDto.getToken())  // 토큰 값은 직접 비교하지 않고 그대로 사용
                 .build();
 
