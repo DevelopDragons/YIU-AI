@@ -29,13 +29,10 @@ public class Member {
     @Column(nullable = false)
     private String tel;
 
-    @Column(nullable = false)
     private String labName;
 
-    @Column(nullable = false)
     private String labLink;
 
-    @Column(nullable = false)
     private String labCategory;
 
     @Column(nullable = false)
@@ -44,7 +41,6 @@ public class Member {
     @Column(nullable = false)
     private MemberRoleCategory role;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
     private String description;
 
     @CreationTimestamp

@@ -34,16 +34,14 @@ public class MemberService {
      * @description member 등록
      * @author 김예서
      * @param name, mail, tel, labName, labLink, labCategory, type, role, description, image, labImage
-     * @return member.getId()
+     * @return Boolean
      * */
     public Boolean createMember(MemberRequestDto requestDto) throws Exception {
         Predicate<Object> isNullOrEmpty = field ->
                 field == null || (field instanceof String && ((String) field).isEmpty());
 
         List<Object> requiredFields = Arrays.asList(
-                requestDto.getName(), requestDto.getMail(), requestDto.getTel(),
-                requestDto.getLabName(), requestDto.getLabLink(), requestDto.getLabCategory(), requestDto.getType(),
-                requestDto.getRole(), requestDto.getDescription()
+                requestDto.getName(), requestDto.getMail(), requestDto.getTel(), requestDto.getType(), requestDto.getRole()
         );
 
         if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
@@ -94,9 +92,7 @@ public class MemberService {
                 field == null || (field instanceof String && ((String) field).isEmpty());
 
         List<Object> requiredFields = Arrays.asList(
-                requestDto.getName(), requestDto.getMail(), requestDto.getTel(),
-                requestDto.getLabName(), requestDto.getLabLink(), requestDto.getLabCategory(), requestDto.getType(),
-                requestDto.getRole(), requestDto.getDescription()
+                requestDto.getName(), requestDto.getMail(), requestDto.getTel(), requestDto.getType(), requestDto.getRole()
         );
 
         if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
