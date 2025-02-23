@@ -19,12 +19,12 @@ public abstract class CommonController<T, R> {
     protected abstract List<T> getEntities() throws Exception;
 
     @PostMapping(value = "/admin", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Boolean> create(@RequestBody R requestDto) throws Exception {
+    public ResponseEntity<Boolean> create(R requestDto) throws Exception {
         return new ResponseEntity<>(createEntity(requestDto), HttpStatus.OK);
     }
 
     @PutMapping(value = "/admin", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Boolean> update(@RequestParam(value = "id") Integer id, @RequestBody R requestDto) throws Exception {
+    public ResponseEntity<Boolean> update(@RequestParam(value = "id") Integer id, R requestDto) throws Exception {
         return new ResponseEntity<>(updateEntity(id, requestDto), HttpStatus.OK);
     }
 
