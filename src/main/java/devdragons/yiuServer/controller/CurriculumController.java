@@ -4,8 +4,10 @@ import devdragons.yiuServer.dto.request.CurriculumRequestDto;
 import devdragons.yiuServer.dto.response.CurriculumResponseDto;
 import devdragons.yiuServer.service.CurriculumService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,5 +35,15 @@ public class CurriculumController extends CommonController<CurriculumResponseDto
     @Override
     protected List<CurriculumResponseDto> getEntities() throws Exception {
         return curriculumService.getCurriculum();
+    }
+
+    @PostMapping(value = "/admin", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<Boolean> create(@ModelAttribute CurriculumRequestDto requestDto) throws Exception {
+        return super.create(requestDto);
+    }
+
+    @PutMapping(value = "/admin", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<Boolean> update(@RequestParam("id") Integer id, @ModelAttribute CurriculumRequestDto requestDto) throws Exception {
+        return super.update(id, requestDto);
     }
 }
