@@ -11,9 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 public class MicroDegreeRequestDto {
     private String title;
-    private String name;
     private String description;
-    private RequiredCategory required;
     private MicroDegreeCategory category;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

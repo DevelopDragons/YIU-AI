@@ -8,5 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface MicroDegreeRepository extends JpaRepository<MicroDegree, Integer> {
-    Optional<MicroDegree> findByName(String name);
+    Optional<MicroDegree> findByTitle(String title);
+
+    boolean existsByTitle(String category);
 }

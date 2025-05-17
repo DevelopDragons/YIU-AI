@@ -34,7 +34,7 @@ public class MicroDegreeController extends CommonController<MicroDegreeResponseD
 
     @Override
     protected List<MicroDegreeResponseDto> getEntities() throws Exception {
-        return microDegreeService.getMd();
+        return microDegreeService.getMdList();
     }
 
     @PostMapping(value = "/admin", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
