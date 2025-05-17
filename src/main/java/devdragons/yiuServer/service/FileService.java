@@ -94,7 +94,7 @@ public class FileService {
             return null;
         }
 
-        String saveName = multipartFile.getOriginalFilename();
+        String saveName = generateSaveFileName(multipartFile.getOriginalFilename());
         String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
         String uploadPath = getUploadPath(today) + File.separator + saveName;
         File uploadFile = new File(uploadPath);
