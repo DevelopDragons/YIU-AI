@@ -3,6 +3,7 @@ package devdragons.yiuServer.service;
 import devdragons.yiuServer.domain.Member;
 import devdragons.yiuServer.domain.state.MemberRoleCategory;
 import devdragons.yiuServer.domain.state.ProfessorTypeCategory;
+import devdragons.yiuServer.domain.state.RequiredCategory;
 import devdragons.yiuServer.dto.request.MemberRequestDto;
 import devdragons.yiuServer.dto.response.MemberResponseDto;
 import devdragons.yiuServer.exception.CustomException;
@@ -50,6 +51,7 @@ class MemberServiceTest {
         dto.setType(ProfessorTypeCategory.FULL_TIME);
         dto.setRole(MemberRoleCategory.ASSISTANT);
         dto.setDescription("description");
+        dto.setRequired(RequiredCategory.REQUIRED);
 
         // when
         memberService.createMember(dto);
@@ -90,6 +92,7 @@ class MemberServiceTest {
                 .type(ProfessorTypeCategory.FULL_TIME)
                 .role(MemberRoleCategory.ASSISTANT)
                 .description("description")
+                .required(RequiredCategory.REQUIRED)
                 .build();
         int savedMemberId = memberRepository.save(member).getId();
 
@@ -104,6 +107,7 @@ class MemberServiceTest {
         dto.setType(ProfessorTypeCategory.FULL_TIME);
         dto.setRole(MemberRoleCategory.ASSISTANT);
         dto.setDescription("description");
+        dto.setRequired(RequiredCategory.SELECT);
         memberService.updateMember(savedMemberId, dto);
 
         // then
@@ -124,6 +128,7 @@ class MemberServiceTest {
                 .type(ProfessorTypeCategory.FULL_TIME)
                 .role(MemberRoleCategory.ASSISTANT)
                 .description("description")
+                .required(RequiredCategory.REQUIRED)
                 .build();
         int savedMemberId = memberRepository.save(member).getId();
 
@@ -150,6 +155,7 @@ class MemberServiceTest {
                 .type(ProfessorTypeCategory.FULL_TIME)
                 .role(MemberRoleCategory.ASSISTANT)
                 .description("description")
+                .required(RequiredCategory.REQUIRED)
                 .build();
         int savedMemberId = memberRepository.save(member).getId();
 
@@ -186,6 +192,7 @@ class MemberServiceTest {
         dto.setType(ProfessorTypeCategory.FULL_TIME);
         dto.setRole(MemberRoleCategory.ASSISTANT);
         dto.setDescription("description");
+        dto.setRequired(RequiredCategory.REQUIRED);
         memberService.createMember(dto);
 
         MemberRequestDto dto2 = new MemberRequestDto();
@@ -198,6 +205,7 @@ class MemberServiceTest {
         dto2.setType(ProfessorTypeCategory.FULL_TIME);
         dto2.setRole(MemberRoleCategory.ASSISTANT);
         dto2.setDescription("description");
+        dto2.setRequired(RequiredCategory.REQUIRED);
         memberService.createMember(dto2);
 
         // when

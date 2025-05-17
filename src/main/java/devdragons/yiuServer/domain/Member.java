@@ -2,6 +2,7 @@ package devdragons.yiuServer.domain;
 
 import devdragons.yiuServer.domain.state.MemberRoleCategory;
 import devdragons.yiuServer.domain.state.ProfessorTypeCategory;
+import devdragons.yiuServer.domain.state.RequiredCategory;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -40,6 +41,9 @@ public class Member {
 
     @Column(nullable = false)
     private MemberRoleCategory role;
+
+    @Column(nullable = false)
+    private RequiredCategory required;
 
     private String description;
 

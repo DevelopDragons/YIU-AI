@@ -3,6 +3,7 @@ package devdragons.yiuServer.service;
 import devdragons.yiuServer.domain.Files;
 import devdragons.yiuServer.domain.Member;
 import devdragons.yiuServer.domain.state.FileType;
+import devdragons.yiuServer.domain.state.RequiredCategory;
 import devdragons.yiuServer.dto.request.FileRequestDto;
 import devdragons.yiuServer.dto.request.MemberRequestDto;
 import devdragons.yiuServer.dto.response.MemberResponseDto;
@@ -33,7 +34,7 @@ public class MemberService {
     /*
      * @description member 등록
      * @author 김예서
-     * @param name, mail, tel, labName, labLink, labCategory, type, role, description, image, labImage
+     * @param name, mail, tel, labName, labLink, labCategory, type, role, description, image, labImage, required
      * @return Boolean
      * */
     public Boolean createMember(MemberRequestDto requestDto) throws Exception {
@@ -41,7 +42,7 @@ public class MemberService {
                 field == null || (field instanceof String && ((String) field).isEmpty());
 
         List<Object> requiredFields = Arrays.asList(
-                requestDto.getName(), requestDto.getMail(), requestDto.getTel(), requestDto.getType(), requestDto.getRole()
+                requestDto.getName(), requestDto.getMail(), requestDto.getTel(), requestDto.getType(), requestDto.getRole(), requestDto.getRequired()
         );
 
         if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
@@ -58,6 +59,7 @@ public class MemberService {
                     .labCategory(requestDto.getLabCategory())
                     .type(requestDto.getType())
                     .role(requestDto.getRole())
+                    .required(requestDto.getRequired())
                     .description(requestDto.getDescription())
                     .build();
 
@@ -92,7 +94,7 @@ public class MemberService {
                 field == null || (field instanceof String && ((String) field).isEmpty());
 
         List<Object> requiredFields = Arrays.asList(
-                requestDto.getName(), requestDto.getMail(), requestDto.getTel(), requestDto.getType(), requestDto.getRole()
+                requestDto.getName(), requestDto.getMail(), requestDto.getTel(), requestDto.getType(), requestDto.getRole(), requestDto.getRequired()
         );
 
         if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
@@ -108,6 +110,7 @@ public class MemberService {
             member.setLabCategory(requestDto.getLabCategory());
             member.setType(requestDto.getType());
             member.setRole(requestDto.getRole());
+            member.setRequired(requestDto.getRequired());
             member.setDescription(requestDto.getDescription());
 
             if(requestDto.getImage() != null || requestDto.getLabImage() != null) {

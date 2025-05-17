@@ -2,6 +2,7 @@ package devdragons.yiuServer.dto.request;
 
 import devdragons.yiuServer.domain.state.MemberRoleCategory;
 import devdragons.yiuServer.domain.state.ProfessorTypeCategory;
+import devdragons.yiuServer.domain.state.RequiredCategory;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +24,7 @@ public class MemberRequestDto {
     private ProfessorTypeCategory type;
     private MemberRoleCategory role;
     private String description;
+    private RequiredCategory required;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

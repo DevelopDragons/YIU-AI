@@ -4,6 +4,7 @@ import devdragons.yiuServer.domain.Files;
 import devdragons.yiuServer.domain.Member;
 import devdragons.yiuServer.domain.state.MemberRoleCategory;
 import devdragons.yiuServer.domain.state.ProfessorTypeCategory;
+import devdragons.yiuServer.domain.state.RequiredCategory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,7 @@ public class MemberResponseDto {
     private ProfessorTypeCategory type;
     private MemberRoleCategory role;
     private String description;
+    private RequiredCategory required;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -71,6 +73,7 @@ public class MemberResponseDto {
                 member.getType(),
                 member.getRole(),
                 member.getDescription(),
+                member.getRequired(),
                 member.getCreatedAt(),
                 member.getUpdatedAt()
         );
