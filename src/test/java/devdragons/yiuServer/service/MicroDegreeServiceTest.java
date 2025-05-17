@@ -2,13 +2,12 @@ package devdragons.yiuServer.service;
 
 import devdragons.yiuServer.domain.MicroDegree;
 import devdragons.yiuServer.domain.state.MicroDegreeCategory;
-import devdragons.yiuServer.domain.state.RequiredCategory;
 import devdragons.yiuServer.dto.request.MicroDegreeRequestDto;
-import devdragons.yiuServer.dto.response.MicroDegreeResponseDto;
 import devdragons.yiuServer.exception.CustomException;
 import devdragons.yiuServer.exception.ErrorCode;
 import devdragons.yiuServer.repository.MicroDegreeRepository;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -25,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Slf4j
 class MicroDegreeServiceTest {
     @Autowired
     private MicroDegreeService microDegreeService;
@@ -42,19 +42,15 @@ class MicroDegreeServiceTest {
     void md등록_성공() throws Exception {
         // given
         MicroDegreeRequestDto md = new MicroDegreeRequestDto();
-        md.setName("name");
-        md.setTitle("title");
-        md.setDescription("description");
-        md.setRequired(RequiredCategory.REQUIRED);
+        md.setTitle("반도체융합기술");
+        md.setDescription("차세대 기능성 반도체 소재 및 소자 공정에 대한 이해. 미래지향적 반도체/디스플레이 구동 원리 및 소자에 관한 이해. 이를 기반으로 한 첨단 반도체/디스플레이 응용분야 발굴 및 적용");
         md.setCategory(MicroDegreeCategory.MD);
 
         // when
         microDegreeService.createMd(md);
 
         // then
-        System.out.println(md.getName());
-        System.out.println("savedMd = " + microDegreeRepository.findByName(md.getName()));
-        Optional<MicroDegree> savedMd = microDegreeRepository.findByName(md.getName());
+        Optional<MicroDegree> savedMd = microDegreeRepository.findByTitle(md.getTitle());
 
         assertTrue(microDegreeRepository.findById(savedMd.get().getId()).isPresent());
     }
@@ -64,7 +60,6 @@ class MicroDegreeServiceTest {
     void md등록_실패_데이터부족() throws Exception {
         // given
         MicroDegreeRequestDto md = new MicroDegreeRequestDto();
-        md.setName("name");
         md.setTitle("title");
         md.setDescription("description");
 
@@ -80,9 +75,7 @@ class MicroDegreeServiceTest {
         // given
         MicroDegree md = MicroDegree.builder()
                 .title("title")
-                .name("name")
                 .description("description")
-                .required(RequiredCategory.REQUIRED)
                 .category(MicroDegreeCategory.MD)
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
@@ -92,14 +85,12 @@ class MicroDegreeServiceTest {
         // when
         MicroDegreeRequestDto dto = new MicroDegreeRequestDto();
         dto.setTitle("title");
-        dto.setName("이름");
         dto.setDescription("description");
-        dto.setRequired(RequiredCategory.REQUIRED);
-        dto.setCategory(MicroDegreeCategory.MD);
+        dto.setCategory(MicroDegreeCategory.CONVERGENCE);
         microDegreeService.updateMd(id, dto);
 
         // then
-        assertTrue(microDegreeRepository.findById(id).get().getName().equals(dto.getName()));
+        assertTrue(microDegreeRepository.findById(id).get().getCategory().equals(dto.getCategory()));
     }
 
     @Test
@@ -107,17 +98,15 @@ class MicroDegreeServiceTest {
     void md수정_실패_데이터부족() throws Exception {
         // given
         MicroDegree md = MicroDegree.builder()
-                .name("name")
                 .title("title")
                 .description("description")
-                .required(RequiredCategory.REQUIRED)
                 .category(MicroDegreeCategory.MD)
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();
         int id = microDegreeRepository.save(md).getId();
         MicroDegreeRequestDto dto = new MicroDegreeRequestDto();
-        dto.setName("");
+        dto.setTitle("");
 
         // when & then
         CustomException customException = assertThrows(CustomException.class, () -> microDegreeService.updateMd(id, dto));
@@ -130,10 +119,8 @@ class MicroDegreeServiceTest {
     void md삭제_성공() throws Exception {
         // given
         MicroDegree md = MicroDegree.builder()
-                .name("name")
                 .title("title")
                 .description("description")
-                .required(RequiredCategory.REQUIRED)
                 .category(MicroDegreeCategory.MD)
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
@@ -164,25 +151,21 @@ class MicroDegreeServiceTest {
     void md조회성공() throws Exception {
         // given
         MicroDegreeRequestDto md = new MicroDegreeRequestDto();
-        md.setName("name");
         md.setTitle("title");
         md.setDescription("description");
-        md.setRequired(RequiredCategory.REQUIRED);
         md.setCategory(MicroDegreeCategory.MD);
         microDegreeService.createMd(md);
 
         MicroDegreeRequestDto md2 = new MicroDegreeRequestDto();
-        md2.setName("name");
         md2.setTitle("title");
         md2.setDescription("description");
-        md2.setRequired(RequiredCategory.REQUIRED);
         md2.setCategory(MicroDegreeCategory.MD);
         microDegreeService.createMd(md2);
 
         // when
-        List<MicroDegreeResponseDto> dtos = microDegreeService.getMd();
+        List<MicroDegree> datas = microDegreeRepository.findAll();
 
         // then
-        assertTrue(dtos.size() == 2);
+        assertTrue(datas.size() == 2);
     }
 }
