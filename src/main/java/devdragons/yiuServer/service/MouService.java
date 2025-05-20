@@ -37,13 +37,14 @@ public class MouService {
      * @return Boolean
      * */
     public Boolean createMou(MouRequestDto requestDto) throws Exception {
-        if(requestDto.getName().isEmpty()){
+        if(requestDto.getName().isEmpty() || requestDto.getDescription().isEmpty()) {
             throw new CustomException(ErrorCode.INSUFFICIENT_DATA);
         }
 
         try {
             MOU mou = MOU.builder()
                     .name(requestDto.getName())
+                    .description(requestDto.getDescription())
                     .createdAt(LocalDateTime.now())
                     .updatedAt(LocalDateTime.now())
                     .build();
@@ -53,6 +54,11 @@ public class MouService {
             if(requestDto.getImage() != null) {
                 List<FileRequestDto> image = fileService.uploadFiles(requestDto.getImage());
                 fileService.saveFiles(FileType.MOU, savedMou.getId(), "image", image);
+            }
+
+            if(requestDto.getDocument() != null) {
+                List<FileRequestDto> document = fileService.uploadFiles(requestDto.getDocument());
+                fileService.saveFiles(FileType.MOU, savedMou.getId(), "document", document);
             }
             return true;
         } catch (Exception e) {
@@ -71,7 +77,7 @@ public class MouService {
         MOU mou = mouRepository.findById(id).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_EXIST_ID));
 
-        if(requestDto.getName().isEmpty()){
+        if(requestDto.getName().isEmpty() || requestDto.getDescription().isEmpty()) {
             throw new CustomException(ErrorCode.INSUFFICIENT_DATA);
         }
 
@@ -85,7 +91,10 @@ public class MouService {
                 filesRepository.deleteAllByTypeAndTypeId(FileType.MOU, id);
 
                 List<FileRequestDto> image = fileService.uploadFiles(requestDto.getImage());
+                List<FileRequestDto> document = fileService.uploadFiles(requestDto.getDocument());
+
                 fileService.saveFiles(FileType.MOU, id, "image", image);
+                fileService.saveFiles(FileType.MOU, id, "document", document);
             }
             mouRepository.save(mou);
             return true;
@@ -126,6 +135,7 @@ public class MouService {
     public List<MouResponseDto> getMou() throws Exception {
         List<MOU> mous = mouRepository.findAll();
         List<Files> image = filesRepository.findAllByTypeAndCategory(FileType.MOU, "image");
+        List<Files> document = filesRepository.findAllByTypeAndCategory(FileType.MOU, "document");
 
         List<MouResponseDto> getListDto = new ArrayList<>();
         for(MOU mou : mous){
@@ -133,7 +143,11 @@ public class MouService {
                     .filter(files -> files.getTypeId().equals(mou.getId()))
                     .collect(Collectors.toList());
 
-            getListDto.add(MouResponseDto.GetMouDto(mou, filteredImages));
+            List<Files> filteredDocuments = document.stream()
+                    .filter(files -> files.getTypeId().equals(mou.getId()))
+                    .collect(Collectors.toList());
+
+            getListDto.add(MouResponseDto.GetMouDto(mou, filteredImages, filteredDocuments));
         }
         return getListDto;
     }

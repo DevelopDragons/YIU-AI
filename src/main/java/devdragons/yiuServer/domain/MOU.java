@@ -20,6 +20,9 @@ public class MOU {
     @Column(nullable = false, length = 255)
     private String name;
 
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String description;
+
     @CreationTimestamp
     @Column
     private LocalDateTime createdAt;

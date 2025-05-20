@@ -10,5 +10,7 @@ import java.util.List;
 @Setter
 public class MouRequestDto {
     private String name;
+    private String description;
+    private List<MultipartFile> document;
     private List<MultipartFile> image;
 }

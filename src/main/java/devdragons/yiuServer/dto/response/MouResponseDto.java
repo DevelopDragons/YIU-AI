@@ -16,12 +16,27 @@ import java.util.stream.Collectors;
 public class MouResponseDto {
     private Integer id;
     private String name;
+    private String description;
+    private List<FileResponseDto> document;
     private List<FileResponseDto> image;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public static MouResponseDto GetMouDto(MOU mou, List<Files> image) {
+    public static MouResponseDto GetMouDto(MOU mou, List<Files> image, List<Files> document) {
         List<FileResponseDto> imageDtos = image.stream()
+                .map(files -> new FileResponseDto(
+                        files.getId(),
+                        files.getType(),
+                        files.getTypeId(),
+                        files.getCategory(),
+                        files.getOriginName(),
+                        files.getSaveName(),
+                        files.getSize(),
+                        files.getCreatedAt()
+                ))
+                .collect(Collectors.toList());
+
+        List<FileResponseDto> documentDtos = document.stream()
                 .map(files -> new FileResponseDto(
                         files.getId(),
                         files.getType(),
@@ -37,7 +52,9 @@ public class MouResponseDto {
         return new MouResponseDto(
                 mou.getId(),
                 mou.getName(),
+                mou.getDescription(),
                 imageDtos,
+                documentDtos,
                 mou.getCreatedAt(),
                 mou.getUpdatedAt()
         );
