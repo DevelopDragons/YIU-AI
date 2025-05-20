@@ -40,6 +40,7 @@ class MouServiceTest {
         // given
         MouRequestDto dto = new MouRequestDto();
         dto.setName("MOU");
+        dto.setDescription("description");
 
         // when
         mouService.createMou(dto);
@@ -68,11 +69,13 @@ class MouServiceTest {
         // given
         MOU mou = MOU.builder()
                 .name("MOU")
+                .description("description")
                 .build();
 
         MOU savedMOU = mouRepository.save(mou);
         MouRequestDto dto = new MouRequestDto();
         dto.setName("mou");
+        dto.setDescription("description");
 
         // when
         mouService.updateMou(savedMOU.getId(), dto);
@@ -88,6 +91,7 @@ class MouServiceTest {
         // given
         MOU mou = MOU.builder()
                 .name("MOU")
+                .description("description")
                 .build();
 
         MOU savedMOU = mouRepository.save(mou);
@@ -106,6 +110,7 @@ class MouServiceTest {
         // given
         MOU mou = MOU.builder()
                 .name("MOU")
+                .description("description")
                 .build();
 
         MOU savedMOU = mouRepository.save(mou);
@@ -135,10 +140,12 @@ class MouServiceTest {
         // given
         MouRequestDto dto1 = new MouRequestDto();
         dto1.setName("mou");
+        dto1.setDescription("description");
         mouService.createMou(dto1);
 
         MouRequestDto dto2 = new MouRequestDto();
         dto2.setName("mou");
+        dto2.setDescription("description");
         mouService.createMou(dto2);
 
         // when
