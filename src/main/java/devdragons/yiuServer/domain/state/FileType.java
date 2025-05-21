@@ -9,5 +9,6 @@ public enum FileType {
     COUNCIL,
     MEMBER,
     NEWS,
-    GRADUATESCHOOL;
+    GRADUATESCHOOL,
+    GREETING;
 }
