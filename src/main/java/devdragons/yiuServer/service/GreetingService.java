@@ -5,6 +5,7 @@ import devdragons.yiuServer.domain.Greeting;
 import devdragons.yiuServer.domain.state.FileType;
 import devdragons.yiuServer.dto.request.FileRequestDto;
 import devdragons.yiuServer.dto.request.GreetingRequestDto;
+import devdragons.yiuServer.dto.response.GreetingResponseDto;
 import devdragons.yiuServer.exception.CustomException;
 import devdragons.yiuServer.exception.ErrorCode;
 import devdragons.yiuServer.repository.FilesRepository;
@@ -15,15 +16,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 @Slf4j
-public class Greetingservice {
+public class GreetingService {
     private final GreetingRepository greetingRepository;
     private final FileService fileService;
     private final FilesRepository filesRepository;
@@ -115,5 +118,51 @@ public class Greetingservice {
             log.error(e.getMessage());
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    /*
+     * @description 학부장 인사말 삭제
+     * @author 김예서
+     * @param id
+     * @return Boolean
+     * */
+    public Boolean deleteGreeting(Integer id) throws Exception {
+        Greeting greeting = greetingRepository.findById(id).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_EXIST_ID));
+
+        try {
+            List<Files> deleteFiles = filesRepository.findAllByTypeAndTypeId(FileType.GREETING, id);
+            fileService.deleteFiles(deleteFiles);
+
+            filesRepository.deleteAllByTypeAndTypeId(FileType.GREETING, id);
+
+            greetingRepository.delete(greeting);
+            return true;
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /*
+     * @description 학부장 인사말 조회
+     * @author 김예서
+     * @return List<GreetingResponseDto>
+     * */
+    public List<GreetingResponseDto> getGreeting() throws Exception {
+        List<Greeting> greetings = greetingRepository.findAll();
+        List<Files> image = filesRepository.findAllByTypeAndCategory(FileType.GREETING, "image");
+        List<Files> autograph = filesRepository.findAllByTypeAndCategory(FileType.GREETING, "autograph");
+
+        List<GreetingResponseDto> getListDto = new ArrayList<>();
+        for(Greeting greeting : greetings) {
+            List<Files> filteredImage = image.stream()
+                    .filter(files -> files.getTypeId().equals(greeting.getId()))
+                    .collect(Collectors.toList());
+            List<Files> filteredAutograph = autograph.stream()
+                    .filter(files -> files.getTypeId().equals(greeting.getId()))
+                    .collect(Collectors.toList());
+            getListDto.add(GreetingResponseDto.GetGreetingDto(greeting, filteredImage, filteredAutograph));
+        }
+        return getListDto;
     }
 }
