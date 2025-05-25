@@ -53,8 +53,8 @@ public class MouResponseDto {
                 mou.getId(),
                 mou.getName(),
                 mou.getDescription(),
-                imageDtos,
                 documentDtos,
+                imageDtos,
                 mou.getCreatedAt(),
                 mou.getUpdatedAt()
         );
