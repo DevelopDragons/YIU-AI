@@ -45,6 +45,7 @@ public class Member {
     @Column(nullable = false)
     private RequiredCategory required;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @CreationTimestamp
