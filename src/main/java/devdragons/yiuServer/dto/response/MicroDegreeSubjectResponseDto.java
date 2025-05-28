@@ -1,6 +1,8 @@
 package devdragons.yiuServer.dto.response;
 
 import devdragons.yiuServer.domain.MicroDegreeSubject;
+import devdragons.yiuServer.domain.state.ClassCategory;
+import devdragons.yiuServer.domain.state.CourseCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,16 +17,16 @@ import javax.security.auth.Subject;
 public class MicroDegreeSubjectResponseDto {
     private String title;
     private String description;
-    private Integer subjectNum;
-    private String classes;
+    private String code;
+    private CourseCategory course;
     private Integer credit;
 
     public static MicroDegreeSubjectResponseDto from(MicroDegreeSubject subject) {
         return MicroDegreeSubjectResponseDto.builder()
                 .title(subject.getTitle())
                 .description(subject.getDescription())
-                .subjectNum(subject.getSubjectNum())
-                .classes(subject.getClasses())
+                .code(subject.getCode())
+                .course(subject.getCourse())
                 .credit(subject.getCredit())
                 .build();
     }

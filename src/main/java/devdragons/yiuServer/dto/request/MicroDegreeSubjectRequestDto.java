@@ -1,8 +1,6 @@
 package devdragons.yiuServer.dto.request;
 
-import devdragons.yiuServer.domain.MicroDegree;
-import devdragons.yiuServer.domain.state.MicroDegreeCategory;
-import jakarta.persistence.Column;
+import devdragons.yiuServer.domain.state.CourseCategory;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +10,7 @@ public class MicroDegreeSubjectRequestDto {
     private String title;
     private String description;
     private String category;
-    private Integer subjectNum;
-    private String classes;
+    private String code;
+    private CourseCategory course;
     private Integer credit;
 }

@@ -38,7 +38,7 @@ public class MicroDegreeSubjectService {
 
         List<Object> requiredFields = Arrays.asList(
                 requestDto.getTitle(), requestDto.getDescription(), requestDto.getCategory(),
-                requestDto.getSubjectNum(), requestDto.getClasses(), requestDto.getCredit()
+                requestDto.getCode(), requestDto.getCourse(), requestDto.getCredit()
         );
 
         if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
@@ -56,8 +56,8 @@ public class MicroDegreeSubjectService {
                     .title(requestDto.getTitle())
                     .description(requestDto.getDescription())
                     .category(md.get().getTitle())
-                    .subjectNum(requestDto.getSubjectNum())
-                    .classes(requestDto.getClasses())
+                    .code(requestDto.getCode())
+                    .course(requestDto.getCourse())
                     .credit(requestDto.getCredit())
                     .createdAt(LocalDateTime.now())
                     .updatedAt(LocalDateTime.now())
@@ -87,7 +87,7 @@ public class MicroDegreeSubjectService {
 
         List<Object> requiredFields = Arrays.asList(
                 requestDto.getTitle(), requestDto.getDescription(), requestDto.getCategory(),
-                requestDto.getSubjectNum(), requestDto.getClasses(), requestDto.getCredit()
+                requestDto.getCode(), requestDto.getCourse(), requestDto.getCredit()
         );
 
         if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
@@ -104,8 +104,8 @@ public class MicroDegreeSubjectService {
             md.setTitle(requestDto.getTitle());
             md.setDescription(requestDto.getDescription());
             md.setCategory(microDegree.get().getTitle());
-            md.setSubjectNum(requestDto.getSubjectNum());
-            md.setClasses(requestDto.getClasses());
+            md.setCode(requestDto.getCode());
+            md.setCourse(requestDto.getCourse());
             md.setCredit(requestDto.getCredit());
             md.setUpdatedAt(LocalDateTime.now());
 

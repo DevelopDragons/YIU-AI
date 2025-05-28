@@ -1,5 +1,7 @@
 package devdragons.yiuServer.domain;
 
+import devdragons.yiuServer.domain.state.ClassCategory;
+import devdragons.yiuServer.domain.state.CourseCategory;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,10 +28,10 @@ public class MicroDegreeSubject {
     private String category;
 
     @Column(nullable = false)
-    private Integer subjectNum;
+    private String code;
 
     @Column(nullable = false)
-    private String classes;
+    private CourseCategory course;
 
     @Column(nullable = false)
     private Integer credit;
