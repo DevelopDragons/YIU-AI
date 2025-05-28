@@ -41,6 +41,15 @@ public class Curriculum {
     @Column(nullable = false)
     private ClassCategory classes;
 
+    @Column(nullable = false)
+    private Integer practice;
+
+    @Column(nullable = false)
+    private Integer theory;
+
+    @Column(nullable = false)
+    private String code;
+
     @CreationTimestamp
     @Column
     private LocalDateTime createdAt;

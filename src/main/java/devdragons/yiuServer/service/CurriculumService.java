@@ -34,8 +34,8 @@ public class CurriculumService {
                 field == null || (field instanceof String && ((String) field).isEmpty());
 
         List<Object> requiredFields = Arrays.asList(
-                requestDto.getTitle(), requestDto.getCourse(), requestDto.getGrade(),
-                requestDto.getTerm(), requestDto.getCredit(), requestDto.getClasses(), requestDto.getDescription()
+                requestDto.getTitle(), requestDto.getCourse(), requestDto.getGrade(), requestDto.getCode(),
+                requestDto.getTerm(), requestDto.getCredit(), requestDto.getClasses(), requestDto.getPractice(), requestDto.getTheory(), requestDto.getDescription()
         );
 
         if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
@@ -51,6 +51,9 @@ public class CurriculumService {
                     .classes(requestDto.getClasses())
                     .grade(requestDto.getGrade())
                     .course(requestDto.getCourse())
+                    .practice(requestDto.getPractice())
+                    .theory(requestDto.getTheory())
+                    .code(requestDto.getCode())
                     .createdAt(requestDto.getCreatedAt())
                     .updatedAt(requestDto.getUpdatedAt())
                     .build();
@@ -76,8 +79,8 @@ public class CurriculumService {
                 field == null || (field instanceof String && ((String) field).isEmpty());
 
         List<Object> requiredFields = Arrays.asList(
-                requestDto.getTitle(), requestDto.getCourse(), requestDto.getGrade(),
-                requestDto.getTerm(), requestDto.getCredit(), requestDto.getClasses(), requestDto.getDescription()
+                requestDto.getTitle(), requestDto.getCourse(), requestDto.getGrade(), requestDto.getCode(),
+                requestDto.getTerm(), requestDto.getCredit(), requestDto.getClasses(), requestDto.getPractice(), requestDto.getTheory(), requestDto.getDescription()
         );
 
         if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
@@ -91,6 +94,9 @@ public class CurriculumService {
             curriculum.setTerm(requestDto.getTerm());
             curriculum.setCredit(requestDto.getCredit());
             curriculum.setClasses(requestDto.getClasses());
+            curriculum.setPractice(requestDto.getPractice());
+            curriculum.setTheory(requestDto.getTheory());
+            curriculum.setCode(requestDto.getCode());
             curriculum.setDescription(requestDto.getDescription());
             curriculum.setUpdatedAt(requestDto.getUpdatedAt());
             curriculumRepository.save(curriculum);

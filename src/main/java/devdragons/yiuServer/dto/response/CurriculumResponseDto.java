@@ -21,6 +21,9 @@ public class CurriculumResponseDto {
     private Integer credit;
     private String description;
     private ClassCategory classes;
+    private Integer theory;
+    private Integer practice;
+    private String code;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -34,6 +37,9 @@ public class CurriculumResponseDto {
                 curriculum.getCredit(),
                 curriculum.getDescription(),
                 curriculum.getClasses(),
+                curriculum.getPractice(),
+                curriculum.getTheory(),
+                curriculum.getCode(),
                 curriculum.getCreatedAt(),
                 curriculum.getUpdatedAt()
         );

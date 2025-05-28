@@ -17,6 +17,9 @@ public class CurriculumRequestDto {
     private Integer credit;
     private String description;
     private ClassCategory classes;
+    private Integer practice;
+    private Integer theory;
+    private String code;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
