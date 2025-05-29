@@ -10,5 +10,6 @@ public enum FileType {
     MEMBER,
     NEWS,
     GRADUATESCHOOL,
-    GREETING;
+    GREETING,
+    GRADUATE;
 }
