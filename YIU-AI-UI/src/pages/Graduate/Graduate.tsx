@@ -13,6 +13,11 @@ import { ai_info } from "../../assets/data/yiu_ai_info";
 import { border1 } from "../../assets/styles/borderLine";
 import { temp_curriculum } from "../../assets/data/temp/temp_curriculum";
 import CurriculumTable from "../../components/Group/CurriculumTable";
+import { useQuery } from "@tanstack/react-query";
+import { Curriculum } from "../../models/curriculum";
+import { defaultAPI } from "../../services";
+import LoadingSpin from "../../components/Spin/LoadingSpin";
+import GetDataErrorResultView from "../../components/Result/GetDataError";
 
 const GraduatePage = (): React.ReactElement => {
   // 반응형 화면
@@ -33,6 +38,22 @@ const GraduatePage = (): React.ReactElement => {
     setValue(newValue);
     navigate(newValue); // 페이지 이동
   };
+
+  // curriculum 데이터 가져오기
+  const {
+    data: curriculums,
+    isLoading,
+    error,
+  } = useQuery<Curriculum[]>({
+    queryKey: ["curriculums"],
+    queryFn: async () => {
+      const res = await defaultAPI.get(`/curriculum`);
+      return res.data;
+    }
+  });
+
+  if (isLoading) return <LoadingSpin />;
+  if (error) return <GetDataErrorResultView />
 
   return (
     <div>
@@ -107,7 +128,7 @@ const GraduatePage = (): React.ReactElement => {
               title="이수 과정"
               // contents={ai_info.certificate}
             />
-            <CurriculumTable data={temp_curriculum} />
+            <CurriculumTable data={curriculums} />
           </div>
         </div>
       </div>
