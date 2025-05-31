@@ -8,6 +8,7 @@ public class YiuServerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(YiuServerApplication.class, args);
+		// issue 브랜치 테스트용
 	}
 
 }
