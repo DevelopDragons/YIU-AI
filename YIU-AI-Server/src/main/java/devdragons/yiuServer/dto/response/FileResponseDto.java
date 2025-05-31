@@ -19,8 +19,6 @@ public class FileResponseDto {
     private LocalDateTime createdAt;
 
     public FileResponseDto(Integer id, FileType type, Integer typeId, String category, String originName, String saveName, Long size, LocalDateTime createdAt) {
-        String dataPath = createdAt.format(DateTimeFormatter.ofPattern("yyMMdd"));
-        String uploadPath = Paths.get("/Users", "yeseokim", "dev", "upload-files", dataPath).toString();
         this.id = id;
         this.type = type;
         this.typeId = typeId;
