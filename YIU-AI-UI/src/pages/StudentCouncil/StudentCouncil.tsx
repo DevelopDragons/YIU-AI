@@ -4,15 +4,34 @@ import { colors } from "../../assets/styles/colors";
 import Title from "../../components/Text/Title";
 import thumbnail from "../../assets/images/council_thumbnail.jpeg";
 import people from "../../assets/images/council_people.jpeg";
-import { temp_council } from "../../assets/data/temp/temp_council";
 import SectionTitle from "../../components/Text/SectionTitle";
 import H20 from "../../components/Gap/H20";
 import { tempCouncilEvents } from "../../assets/data/temp/temp_council";
 import { useResponsive } from "../../hooks/ResponsiveContext";
+import { useQuery } from "@tanstack/react-query";
+import { Council } from "../../models/council";
+import { defaultAPI } from "../../services";
+import LoadingSpin from "../../components/Spin/LoadingSpin";
+import GetDataErrorResultView from "../../components/Result/GetDataError";
 
 const StudentCouncilPage = (): React.ReactElement => {
   const { isMobile, isNotMobile, isTablet, isDesktopOrLaptop } =
     useResponsive();
+
+  const {
+    data: council,
+    isLoading,
+    error,
+  } = useQuery<Council[]>({
+    queryKey: ["council"],
+    queryFn: async () => {
+      const res = await defaultAPI(`/council`);
+      return res.data;
+    }
+  })
+
+  if (isLoading) return <LoadingSpin />
+  if (error) return  <GetDataErrorResultView />
 
   // 썸네일 + 슬로건 + 설명
   const StudentCouncilIntro = () => {
@@ -26,7 +45,7 @@ const StudentCouncilPage = (): React.ReactElement => {
         })}
       >
         <img
-          src={thumbnail}
+          src={`${process.env.REACT_APP_URL}/files/show?id=${council?.[0]?.thumbnails?.[0]?.id}`}
           css={{
             width: 250,
             objectFit: "contain",
@@ -49,7 +68,7 @@ const StudentCouncilPage = (): React.ReactElement => {
               color: colors.yiu.darkBlue,
             })}
           >
-            {temp_council.name}
+            {council?.[0]?.name}
           </div>
           <div
             css={css({
@@ -57,7 +76,7 @@ const StudentCouncilPage = (): React.ReactElement => {
               color: colors.gray.darkGray,
             })}
           >
-            {temp_council.slogan}
+            {council?.[0]?.slogan}
           </div>
           <div
             css={css({
@@ -67,7 +86,7 @@ const StudentCouncilPage = (): React.ReactElement => {
               lineHeight: 1.5,
             })}
           >
-            {temp_council.description}
+            {council?.[0]?.description}
           </div>
         </div>
       </div>
@@ -103,7 +122,7 @@ const StudentCouncilPage = (): React.ReactElement => {
         <SectionTitle title={"조직도"} />
         <H20 />
         <img
-          src={people}
+          src={`${process.env.REACT_APP_URL}/files/show?id=${council?.[0]?.people?.[0]?.id}`}
           css={{
             width: "100%",
             maxWidth: 700,
