@@ -7,6 +7,7 @@ import devdragons.yiuServer.repository.FilesRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -30,7 +31,9 @@ import java.util.stream.Collectors;
 public class FileService {
     private final FilesRepository fileRepository;
 
-    private final String uploadPath = Paths.get("/Users", "yeseokim", "dev", "upload-files").toString();
+    @Value("${file.upload.path}")
+    private String uploadPath;
+
     private final FilesRepository filesRepository;
 
 

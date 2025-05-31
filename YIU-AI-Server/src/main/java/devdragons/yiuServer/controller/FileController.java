@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import devdragons.yiuServer.exception.CustomException;
 import devdragons.yiuServer.exception.ErrorCode;
 import devdragons.yiuServer.repository.FilesRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.UrlResource;
@@ -28,11 +29,14 @@ import java.time.format.DateTimeFormatter;
 @RequiredArgsConstructor
 public class FileController {
     private final FilesRepository filesRepository;
-    private final Path uploadPath = Paths.get("/Users", "yeseokim", "dev", "upload-files");
+
+    @Value("${file.upload.path}")
+    private String uploadPathString;
 
     public Resource readFileAsResource(devdragons.yiuServer.domain.Files file) {
         String uploadedDate = file.getCreatedAt().toLocalDate().format(DateTimeFormatter.ofPattern("yyMMdd"));
         String filename = file.getSaveName();
+        Path uploadPath = Paths.get(uploadPathString);
         Path filePath = uploadPath.resolve(uploadedDate).resolve(filename);
 
         try {
