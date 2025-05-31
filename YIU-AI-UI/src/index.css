@@ -1,0 +1,100 @@
+body {
+  margin: 0;
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: "Pretendard", source-code-pro, Menlo, Monaco, Consolas,
+    "Courier New", monospace;
+}
+
+/* Pretendard */
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 100;
+  font-display: swap;
+  src: local("Pretendard Thin"),
+    url("./assets/fonts/pretendard/Pretendard-Thin.subset.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 200;
+  font-display: swap;
+  src: local("Pretendard ExtraLight"),
+    url("./assets/fonts/pretendard/Pretendard-ExtraLight.subset.woff")
+      format("woff");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 300;
+  font-display: swap;
+  src: local("Pretendard Light"),
+    url("./assets/fonts/pretendard/Pretendard-Light.subset.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 400;
+  font-display: swap;
+  src: local("Pretendard Regular"),
+    url("./assets/fonts/pretendard/Pretendard-Regular.subset.woff")
+      format("woff");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 500;
+  font-display: swap;
+  src: local("Pretendard Medium"),
+    url("./assets/fonts/pretendard/Pretendard-Medium.subset.woff")
+      format("woff");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 600;
+  font-display: swap;
+  src: local("Pretendard SemiBold"),
+    url("./assets/fonts/pretendard/Pretendard-SemiBold.subset.woff")
+      format("woff");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 700;
+  font-display: swap;
+  src: local("Pretendard Bold"),
+    url("./assets/fonts/pretendard/Pretendard-Bold.subset.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 800;
+  font-display: swap;
+  src: local("Pretendard ExtraBold"),
+    url("./assets/fonts/pretendard/Pretendard-ExtraBold.subset.woff")
+      format("woff");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 900;
+  font-display: swap;
+  src: local("Pretendard Black"),
+    url("./assets/fonts/pretendard/Pretendard-Black.subset.woff") format("woff");
+}
+
+/* Arvo */
+@font-face {
+  font-family: "Arvo Bold";
+  font-weight: 900;
+  font-display: swap;
+  src: local("Arvo Bold"),
+    url("./assets/fonts/arvo//Arvo-Bold.ttf") format("truetype");
+}
