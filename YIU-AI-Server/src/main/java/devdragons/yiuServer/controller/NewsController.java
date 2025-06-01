@@ -45,4 +45,14 @@ public class NewsController extends CommonController<NewsResponseDto, NewsReques
     public ResponseEntity<Page<News>> searchNews(@RequestParam String keyword, @PageableDefault(size = 10) Pageable pageable) {
         return new ResponseEntity<>(newsService.searchNews(keyword, pageable), HttpStatus.OK);
     }
+
+    @GetMapping("/search-title")
+    public ResponseEntity<Page<News>> searchNewsWithTitle(@RequestParam String title, @PageableDefault(size = 10) Pageable pageable) {
+        return new ResponseEntity<>(newsService.searchNewsWithTitle(title, pageable), HttpStatus.OK);
+    }
+
+    @GetMapping("/search-contents")
+    public ResponseEntity<Page<News>> searchNewsWithContents(@RequestParam String contents, Pageable pageable) {
+        return new ResponseEntity<>(newsService.searchNewsWithContents(contents, pageable), HttpStatus.OK);
+    }
 }
