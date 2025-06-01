@@ -13,4 +13,8 @@ public interface NewsRepository extends JpaRepository<News, Integer> {
     Optional<News> findByTitle(String title);
 
     Page<News> findByTitleContainingOrContentsContaining(String title, String contents, Pageable pageable);
+
+    Page<News> findByTitleContaining(String title, Pageable pageable);
+
+    Page<News> findByContentsContaining(String contents, Pageable pageable);
 }

@@ -177,12 +177,32 @@ public class NewsService {
     }
 
     /*
-     * @description 뉴스 검색
+     * @description 뉴스 검색 (제목 + 본문)
      * @author 김예서
-     * @param title
+     * @param keyword
      * @return boolean
      * */
     public Page<News> searchNews(String keyword, Pageable pageable) {
         return newsRepository.findByTitleContainingOrContentsContaining(keyword, keyword, pageable);
+    }
+
+    /*
+     * @description 뉴스 검색 (제목)
+     * @author 김예서
+     * @param keyword
+     * @return boolean
+     * */
+    public Page<News> searchNewsWithTitle(String title, Pageable pageable) {
+        return newsRepository.findByTitleContaining(title, pageable);
+    }
+
+    /*
+     * @description 뉴스 검색 (제목)
+     * @author 김예서
+     * @param keyword
+     * @return boolean
+     * */
+    public Page<News> searchNewsWithContents(String contents, Pageable pageable) {
+        return newsRepository.findByContentsContaining(contents, pageable);
     }
 }
