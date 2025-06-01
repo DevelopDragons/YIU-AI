@@ -13,6 +13,8 @@ import devdragons.yiuServer.repository.NewsRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -172,5 +174,15 @@ public class NewsService {
             getListDto.add(NewsResponseDto.GetNewsDto(news1, filteredThumbnails, filteredGallery, filteredFile));
         }
         return getListDto;
+    }
+
+    /*
+     * @description 뉴스 검색
+     * @author 김예서
+     * @param title
+     * @return boolean
+     * */
+    public Page<News> searchNews(String keyword, Pageable pageable) {
+        return newsRepository.findByTitleContainingOrContentsContaining(keyword, keyword, pageable);
     }
 }
