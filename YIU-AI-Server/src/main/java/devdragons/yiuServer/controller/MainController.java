@@ -3,13 +3,18 @@ package devdragons.yiuServer.controller;
 import devdragons.yiuServer.dto.LoginDto;
 import devdragons.yiuServer.dto.TokenDto;
 import devdragons.yiuServer.dto.request.UserRequestDto;
+import devdragons.yiuServer.dto.response.UserResponseDto;
 import devdragons.yiuServer.service.MainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -44,6 +49,18 @@ public class MainController {
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<LoginDto> login(UserRequestDto request) throws Exception {
         return new ResponseEntity<>(mainService.login(request), HttpStatus.OK);
+    }
+
+    // 학생 조회(전체)
+    @GetMapping("/student/all")
+    public ResponseEntity<List<UserResponseDto>> getStudents() throws Exception {
+        return new ResponseEntity<>(mainService.getStudents(), HttpStatus.OK);
+    }
+
+    // 학생 조회(학년별)
+    @GetMapping("/student")
+    public ResponseEntity<List<UserResponseDto>> getStudentsByGrade(@RequestParam("grade") int grade) throws Exception {
+        return new ResponseEntity<>(mainService.getStudentsByGrade(grade), HttpStatus.OK);
     }
 
     // accessToken 재발급
