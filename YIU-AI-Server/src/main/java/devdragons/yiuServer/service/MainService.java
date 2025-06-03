@@ -18,11 +18,13 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
+import org.springframework.data.domain.Pageable;
 import java.io.UnsupportedEncodingException;
 import java.time.Duration;
 import java.util.*;
@@ -237,6 +239,16 @@ public class MainService {
             responseDtos.add(UserResponseDto.GetUserDto(user));
         }
         return responseDtos;
+    }
+
+    /*
+     * @description 학생 검색
+     * @author 김예서
+     * @return Page<Users>
+     * */
+    public Page<UserResponseDto> searchStudentsByName(String name, Pageable pageable) {
+        return userRepository.findByNameContaining(name, pageable)
+                .map(user -> UserResponseDto.GetUserDto(user));
     }
 
     /*

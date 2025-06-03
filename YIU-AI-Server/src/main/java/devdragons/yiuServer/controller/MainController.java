@@ -1,11 +1,15 @@
 package devdragons.yiuServer.controller;
 
+import devdragons.yiuServer.domain.User;
 import devdragons.yiuServer.dto.LoginDto;
 import devdragons.yiuServer.dto.TokenDto;
 import devdragons.yiuServer.dto.request.UserRequestDto;
+import devdragons.yiuServer.dto.response.PageResponseDto;
 import devdragons.yiuServer.dto.response.UserResponseDto;
 import devdragons.yiuServer.service.MainService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
@@ -61,6 +65,13 @@ public class MainController {
     @GetMapping("/student")
     public ResponseEntity<List<UserResponseDto>> getStudentsByGrade(@RequestParam("grade") int grade) throws Exception {
         return new ResponseEntity<>(mainService.getStudentsByGrade(grade), HttpStatus.OK);
+    }
+
+    // 학생 검색
+    @GetMapping("/student/search")
+    public ResponseEntity<PageResponseDto<UserResponseDto>> searchStudentByName(@RequestParam("name") String name, Pageable pageable) throws Exception {
+        Page<UserResponseDto> usersPage = mainService.searchStudentsByName(name, pageable);
+        return ResponseEntity.ok(new PageResponseDto<>(usersPage));
     }
 
     // accessToken 재발급
