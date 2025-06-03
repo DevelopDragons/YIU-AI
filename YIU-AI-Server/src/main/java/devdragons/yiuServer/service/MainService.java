@@ -2,9 +2,11 @@ package devdragons.yiuServer.service;
 
 import devdragons.yiuServer.domain.Token;
 import devdragons.yiuServer.domain.User;
+import devdragons.yiuServer.domain.state.UserRoleCategory;
 import devdragons.yiuServer.dto.LoginDto;
 import devdragons.yiuServer.dto.TokenDto;
 import devdragons.yiuServer.dto.request.UserRequestDto;
+import devdragons.yiuServer.dto.response.UserResponseDto;
 import devdragons.yiuServer.exception.CustomException;
 import devdragons.yiuServer.exception.ErrorCode;
 import devdragons.yiuServer.repository.TokenRepository;
@@ -207,6 +209,34 @@ public class MainService {
             log.error(e.getMessage());
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    /*
+     * @description 학생 조회(전체)
+     * @author 김예서
+     * @return List<UserResponseDto>
+     * */
+    public List<UserResponseDto> getStudents() throws Exception {
+        List<User> users = userRepository.findAllByRole(UserRoleCategory.STUDENT);
+        List<UserResponseDto> responseDtos = new ArrayList<>();
+        for (User user : users) {
+            responseDtos.add(UserResponseDto.GetUserDto(user));
+        }
+        return responseDtos;
+    }
+
+    /*
+     * @description 학생 조회(학년별)
+     * @author 김예서
+     * @return List<UserResponseDto>
+     * */
+    public List<UserResponseDto> getStudentsByGrade(int grade) throws Exception {
+        List<User> users = userRepository.findAllByRoleAndGrade(UserRoleCategory.STUDENT, grade);
+        List<UserResponseDto> responseDtos = new ArrayList<>();
+        for(User user : users) {
+            responseDtos.add(UserResponseDto.GetUserDto(user));
+        }
+        return responseDtos;
     }
 
     /*
