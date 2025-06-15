@@ -38,16 +38,11 @@ public class GraduationService {
      * @return Boolean
      * */
     public Boolean createGraduation(GraduationRequestDto requestDto) throws Exception {
-        Predicate<Object> isNullOrEmpty = field ->
-                field == null || (field instanceof String && ((String) field).isEmpty());
-
         List<Object> requiredFields = Arrays.asList(
                 requestDto.getYear(), requestDto.getFile()
         );
 
-        if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
-            throw new CustomException(ErrorCode.INSUFFICIENT_DATA);
-        }
+        CommonService.validateRequiredFields(requiredFields);
 
         try {
             Graduation graduation = Graduation.builder()
@@ -77,16 +72,11 @@ public class GraduationService {
     public Boolean updateGraduation(Integer year, GraduationRequestDto requestDto) throws Exception {
         Graduation graduation = graduationRepository.findByYear(year);
 
-        Predicate<Object> isNullOrEmpty = field ->
-                field == null || (field instanceof String && ((String) field).isEmpty());
-
         List<Object> requiredFields = Arrays.asList(
                 requestDto.getYear(), requestDto.getFile()
         );
 
-        if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
-            throw new CustomException(ErrorCode.INSUFFICIENT_DATA);
-        }
+        CommonService.validateRequiredFields(requiredFields);
 
         try {
             graduation.setYear(requestDto.getYear());

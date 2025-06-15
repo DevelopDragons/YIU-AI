@@ -38,16 +38,11 @@ public class GraduateSchoolService {
      * @return Boolean
      * */
     public Boolean createGraduateSchool(GraduateSchoolRequestDto requestDto) throws Exception {
-        Predicate<Object> isNullOrEmpty = field ->
-                field == null || (field instanceof String && ((String) field).isEmpty());
-
         List<Object> requiredFields = Arrays.asList(
                 requestDto.getName(), requestDto.getSlogan()
         );
 
-        if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
-            throw new CustomException(ErrorCode.INSUFFICIENT_DATA);
-        }
+        CommonService.validateRequiredFields(requiredFields);
 
         try {
             GraduateSchool graduateSchool = GraduateSchool.builder()
@@ -80,16 +75,11 @@ public class GraduateSchoolService {
         GraduateSchool graduateSchool = graduateSchoolRepository.findById(id).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_EXIST_ID));
 
-        Predicate<Object> isNullOrEmpty = field ->
-                field == null || (field instanceof String && ((String) field).isEmpty());
-
         List<Object> requiredFields = Arrays.asList(
                 requestDto.getName(), requestDto.getSlogan()
         );
 
-        if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
-            throw new CustomException(ErrorCode.INSUFFICIENT_DATA);
-        }
+        CommonService.validateRequiredFields(requiredFields);
 
         try {
             graduateSchool.setName(requestDto.getName());

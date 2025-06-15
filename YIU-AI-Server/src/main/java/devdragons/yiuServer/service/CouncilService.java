@@ -38,17 +38,12 @@ public class CouncilService {
      * @return Boolean
      * */
     public Boolean createCouncil(CouncilRequestDto requestDto) throws Exception {
-        Predicate<Object> isNullOrEmpty = field ->
-                field == null || (field instanceof String && ((String) field).isEmpty());
-
         List<Object> requiredFields = Arrays.asList(
                 requestDto.getName(), requestDto.getLink(), requestDto.getYear(),
                 requestDto.getSlogan(), requestDto.getDescription()
         );
 
-        if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
-            throw new CustomException(ErrorCode.INSUFFICIENT_DATA);
-        }
+        CommonService.validateRequiredFields(requiredFields);
 
         try {
             Council council = Council.builder()
@@ -87,17 +82,12 @@ public class CouncilService {
         Council council = councilRepository.findById(id).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_EXIST_ID));
 
-        Predicate<Object> isNullOrEmpty = field ->
-                field == null || (field instanceof String && ((String) field).isEmpty());
-
         List<Object> requiredFields = Arrays.asList(
                 requestDto.getName(), requestDto.getLink(), requestDto.getYear(),
                 requestDto.getSlogan(), requestDto.getDescription()
         );
 
-        if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
-            throw new CustomException(ErrorCode.INSUFFICIENT_DATA);
-        }
+        CommonService.validateRequiredFields(requiredFields);
 
         try {
             council.setName(requestDto.getName());

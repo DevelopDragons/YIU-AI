@@ -33,17 +33,12 @@ public class MicroDegreeSubjectService {
      * @return Boolean
      * */
     public Boolean createMicroDegreeSubject(MicroDegreeSubjectRequestDto requestDto) throws Exception {
-        Predicate<Object> isNullOrEmpty = field ->
-                field == null || (field instanceof String && ((String) field).isEmpty());
-
         List<Object> requiredFields = Arrays.asList(
                 requestDto.getTitle(), requestDto.getDescription(), requestDto.getCategory(),
                 requestDto.getCode(), requestDto.getCourse(), requestDto.getCredit()
         );
 
-        if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
-            throw new CustomException(ErrorCode.INSUFFICIENT_DATA);
-        }
+        CommonService.validateRequiredFields(requiredFields);
 
         if(!microDegreeRepository.existsByTitle(requestDto.getCategory())) {
             throw new CustomException(ErrorCode.NOT_EXIST_ID);
@@ -82,17 +77,12 @@ public class MicroDegreeSubjectService {
         MicroDegreeSubject md = microDegreeSubjectRepository.findById(id).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_EXIST_ID));
 
-        Predicate<Object> isNullOrEmpty = field ->
-                field == null || (field instanceof String && ((String) field).isEmpty());
-
         List<Object> requiredFields = Arrays.asList(
                 requestDto.getTitle(), requestDto.getDescription(), requestDto.getCategory(),
                 requestDto.getCode(), requestDto.getCourse(), requestDto.getCredit()
         );
 
-        if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
-            throw new CustomException(ErrorCode.INSUFFICIENT_DATA);
-        }
+        CommonService.validateRequiredFields(requiredFields);
 
         if(!microDegreeRepository.existsByTitle(requestDto.getCategory())) {
             throw new CustomException(ErrorCode.NOT_EXIST_ID);

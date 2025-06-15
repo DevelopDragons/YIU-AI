@@ -40,16 +40,11 @@ public class NewsService {
      * @return boolean
      * */
     public Boolean createNews(NewsRequestDto requestDto) throws Exception {
-        Predicate<Object> isNullOrEmpty = field ->
-                field == null || (field instanceof String && ((String) field).isEmpty());
-
         List<Object> requiredFields = Arrays.asList(
                 requestDto.getTitle(), requestDto.getShorts(), requestDto.getContents()
         );
 
-        if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
-            throw new CustomException(ErrorCode.INSUFFICIENT_DATA);
-        }
+        CommonService.validateRequiredFields(requiredFields);
 
         try {
             News news = News.builder()
@@ -88,16 +83,11 @@ public class NewsService {
         News news = newsRepository.findById(id).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_EXIST_ID));
 
-        Predicate<Object> isNullOrEmpty = field ->
-                field == null || (field instanceof String && ((String) field).isEmpty());
-
         List<Object> requiredFields = Arrays.asList(
                 requestDto.getTitle(), requestDto.getShorts(), requestDto.getContents()
         );
 
-        if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
-            throw new CustomException(ErrorCode.INSUFFICIENT_DATA);
-        }
+        CommonService.validateRequiredFields(requiredFields);
 
         try {
             news.setTitle(requestDto.getTitle());

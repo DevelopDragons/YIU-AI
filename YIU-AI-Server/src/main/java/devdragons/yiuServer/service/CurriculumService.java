@@ -30,17 +30,12 @@ public class CurriculumService {
      * @return Boolean
      * */
     public Boolean createCurriculum(CurriculumRequestDto requestDto) throws Exception {
-        Predicate<Object> isNullOrEmpty = field ->
-                field == null || (field instanceof String && ((String) field).isEmpty());
-
         List<Object> requiredFields = Arrays.asList(
                 requestDto.getTitle(), requestDto.getCourse(), requestDto.getGrade(), requestDto.getCode(),
                 requestDto.getTerm(), requestDto.getCredit(), requestDto.getClasses(), requestDto.getPractice(), requestDto.getTheory(), requestDto.getDescription()
         );
 
-        if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
-            throw new CustomException(ErrorCode.INSUFFICIENT_DATA);
-        }
+        CommonService.validateRequiredFields(requiredFields);
 
         try {
             Curriculum curriculum = Curriculum.builder()
@@ -75,17 +70,12 @@ public class CurriculumService {
         Curriculum curriculum = curriculumRepository.findById(id).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_EXIST_ID));
 
-        Predicate<Object> isNullOrEmpty = field ->
-                field == null || (field instanceof String && ((String) field).isEmpty());
-
         List<Object> requiredFields = Arrays.asList(
                 requestDto.getTitle(), requestDto.getCourse(), requestDto.getGrade(), requestDto.getCode(),
                 requestDto.getTerm(), requestDto.getCredit(), requestDto.getClasses(), requestDto.getPractice(), requestDto.getTheory(), requestDto.getDescription()
         );
 
-        if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
-            throw new CustomException(ErrorCode.INSUFFICIENT_DATA);
-        }
+        CommonService.validateRequiredFields(requiredFields);
 
         try {
             curriculum.setTitle(requestDto.getTitle());
