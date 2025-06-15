@@ -31,6 +31,15 @@ public class MemberService {
     private final FileService fileService;
     private final FilesRepository filesRepository;
 
+//    private void validateRequiredFields(List<Object> fields) {
+//        Predicate<Object> isNullOrEmpty = field ->
+//                field == null || (field instanceof String && ((String) field).isEmpty());
+//
+//        if(fields.stream().anyMatch(isNullOrEmpty)) {
+//            throw new CustomException(ErrorCode.INSUFFICIENT_DATA);
+//        }
+//    }
+
     /*
      * @description member 등록
      * @author 김예서
@@ -38,16 +47,11 @@ public class MemberService {
      * @return Boolean
      * */
     public Boolean createMember(MemberRequestDto requestDto) throws Exception {
-        Predicate<Object> isNullOrEmpty = field ->
-                field == null || (field instanceof String && ((String) field).isEmpty());
-
         List<Object> requiredFields = Arrays.asList(
                 requestDto.getName(), requestDto.getMail(), requestDto.getTel(), requestDto.getType(), requestDto.getRole(), requestDto.getRequired()
         );
 
-        if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
-            throw new CustomException(ErrorCode.INSUFFICIENT_DATA);
-        }
+        CommonService.validateRequiredFields(requiredFields);
 
         try {
             Member member = Member.builder()
@@ -90,16 +94,11 @@ public class MemberService {
         Member member = memberRepository.findById(id).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_EXIST_ID));
 
-        Predicate<Object> isNullOrEmpty = field ->
-                field == null || (field instanceof String && ((String) field).isEmpty());
-
         List<Object> requiredFields = Arrays.asList(
                 requestDto.getName(), requestDto.getMail(), requestDto.getTel(), requestDto.getType(), requestDto.getRole(), requestDto.getRequired()
         );
 
-        if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
-            throw new CustomException(ErrorCode.INSUFFICIENT_DATA);
-        }
+        CommonService.validateRequiredFields(requiredFields);
 
         try {
             member.setName(requestDto.getName());

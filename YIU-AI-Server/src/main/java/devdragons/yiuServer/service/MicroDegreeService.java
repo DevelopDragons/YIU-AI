@@ -33,16 +33,11 @@ public class MicroDegreeService {
      * @return Boolean
      * */
     public Boolean createMd(MicroDegreeRequestDto requestDto) throws Exception {
-        Predicate<Object> isNullOrEmpty = field ->
-                field == null || (field instanceof String && ((String) field).isEmpty());
-
         List<Object> requiredFields = Arrays.asList(
                 requestDto.getTitle(), requestDto.getDescription(), requestDto.getCategory()
         );
 
-        if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
-            throw new CustomException(ErrorCode.INSUFFICIENT_DATA);
-        }
+        CommonService.validateRequiredFields(requiredFields);
 
         try {
             MicroDegree microDegree = MicroDegree.builder()
@@ -72,16 +67,11 @@ public class MicroDegreeService {
         MicroDegree microDegree = microDegreeRepository.findById(id).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_EXIST_ID));
 
-        Predicate<Object> isNullOrEmpty = field ->
-                field == null || (field instanceof String && ((String) field).isEmpty());
-
         List<Object> requiredFields = Arrays.asList(
                 requestDto.getTitle(), requestDto.getDescription(), requestDto.getCategory()
         );
 
-        if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
-            throw new CustomException(ErrorCode.INSUFFICIENT_DATA);
-        }
+        CommonService.validateRequiredFields(requiredFields);
 
         try {
             microDegree.setTitle(requestDto.getTitle());

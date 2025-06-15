@@ -38,18 +38,13 @@ public class InfoService {
      * @return Boolean
      * */
     public Boolean createInfo(InfoRequestDto requestDto) throws Exception {
-        Predicate<Object> isNullOrEmpty = field ->
-                field == null || (field instanceof String && ((String) field).isEmpty());
-
         List<Object> requiredFields = Arrays.asList(
                 requestDto.getName(), requestDto.getEngName(), requestDto.getAddress(),
                 requestDto.getTel(), requestDto.getMail(), requestDto.getProfessor(), requestDto.getGreeting(),
                 requestDto.getTitle(), requestDto.getContents(), requestDto.getSlogan(), requestDto.getIntroduce()
         );
 
-        if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
-            throw new CustomException(ErrorCode.INSUFFICIENT_DATA);
-        }
+        CommonService.validateRequiredFields(requiredFields);
 
         try {
             Info info = Info.builder()
@@ -96,18 +91,13 @@ public class InfoService {
         Info info = infoRepository.findById(id).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_EXIST_ID));
 
-        Predicate<Object> isNullOrEmpty = field ->
-                field == null || (field instanceof String && ((String) field).isEmpty());
-
         List<Object> requiredFields = Arrays.asList(
                 requestDto.getName(), requestDto.getEngName(), requestDto.getAddress(),
                 requestDto.getTel(), requestDto.getMail(), requestDto.getProfessor(), requestDto.getGreeting(),
                 requestDto.getTitle(), requestDto.getContents(), requestDto.getSlogan(), requestDto.getIntroduce()
         );
 
-        if(requiredFields.stream().anyMatch(isNullOrEmpty)) {
-            throw new CustomException(ErrorCode.INSUFFICIENT_DATA);
-        }
+        CommonService.validateRequiredFields(requiredFields);
 
         try {
             info.setName(requestDto.getName());
