@@ -57,8 +57,8 @@ public class SecurityConfig {
                         configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/login", "/register", "/register/email", "/pwd/email", "/pwd/change", "/token/refresh", "/main", "/council", "/news", "/info", "/mou", "/member", "/graduateSchool", "/microdegree", "/curriculum", "/files/*", "/microdegree", "/microdegreeSubject", "/greeting", "/graduation", "/news/search", "/news/search-title", "/news/search-contents", "/student", "/student/all", "/student/search").permitAll()
-                        .requestMatchers("/council/admin", "/news/admin", "/info/admin", "/mou/admin", "/member/admin", "/graduateSchool/admin", "/microdegree/admin", "/curriculum/admin", "/microdegreeSubject/admin", "/greeting/admin", "/graduation/admin").hasAnyRole("ADMIN", "SUPER")
+                        .requestMatchers("/login", "/register", "/register/email", "/pwd/email", "/pwd/change", "/token/refresh", "/main", "/council", "/news", "/info", "/mou", "/member", "/graduateSchool", "/microdegree", "/curriculum", "/files/*", "/microdegree", "/microdegreeSubject", "/greeting", "/graduation", "/news/search", "/news/search-title", "/news/search-contents", "/student", "/student/all", "/student/search", "/graduationDetail", "/userGraduation").permitAll()
+                        .requestMatchers("/council/admin", "/news/admin", "/info/admin", "/mou/admin", "/member/admin", "/graduateSchool/admin", "/microdegree/admin", "/curriculum/admin", "/microdegreeSubject/admin", "/greeting/admin", "/graduation/admin", "/graduationDetail/admin", "/userGraduation/admin").hasAnyRole("ADMIN", "SUPER")
                         .anyRequest().authenticated())
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider),
                         UsernamePasswordAuthenticationFilter.class)
