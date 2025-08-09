@@ -1,13 +1,23 @@
 import React, { useState, useEffect } from "react";
-import pdf from "../../assets/comments_v2.pdf";
 
 interface PDFViewerProps {
-  pdf: string;
+  id: number;
 }
 
-const PDFViewer = ({ pdf }: PDFViewerProps): React.ReactElement => {
+const PDFViewer = ({ id }: PDFViewerProps): React.ReactElement => {
+  const [pdfUrl, setPdfUrl] = useState<string>();
+
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_URL}/files/show?id=${id}`)
+      .then((res) => res.blob())
+      .then((blob) => {
+        const url = URL.createObjectURL(blob);
+        setPdfUrl(url);
+      });
+  }, []);
+
   return (
-    <embed type="application/pdf" src={pdf} width={"100%"} height={1000} />
+    <embed type="application/pdf" src={pdfUrl} width={"100%"} height={1000} />
   );
 };
 

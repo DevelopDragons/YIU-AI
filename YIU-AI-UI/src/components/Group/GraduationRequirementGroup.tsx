@@ -54,7 +54,19 @@ const GraduationRequirementGroup = ({
         timeout="auto"
         css={css({ paddingBottom: open ? 50 : 0 })}
       >
-        <PDFViewer pdf={`${process.env.REACT_APP_URL}/files/show?id=${item.file?.[0]?.id}`} />
+        {item.file?.length > 0 ? (
+          <PDFViewer id={item.file?.[0]?.id} />
+        ) : (
+          <div
+            css={css({
+              textAlign: "center",
+              color: colors.gray.mediumBrightGray,
+              fontWeight: 600,
+            })}
+          >
+            아직 졸업요건이 업로드되지 않았습니다.
+          </div>
+        )}
       </Collapse>
     </>
   );
