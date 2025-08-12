@@ -3,6 +3,7 @@ import { useMediaQuery } from "react-responsive";
 
 // 반응형 상태를 관리할 Context
 interface ResponsiveContextType {
+  isNarrow: boolean;
   isMobile: boolean;
   isTablet: boolean;
   isDesktopOrLaptop: boolean;
@@ -25,8 +26,10 @@ export const ResponsiveProvider: React.FC<ResponsiveProviderProps> = ({
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isNotMobile = useMediaQuery({ minWidth: 768 });
+  const isNarrow = useMediaQuery({ maxWidth: 500 });
 
   const value = {
+    isNarrow,
     isMobile,
     isTablet,
     isDesktopOrLaptop,
