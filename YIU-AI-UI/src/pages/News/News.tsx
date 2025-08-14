@@ -14,17 +14,22 @@ import LoadingSpin from "../../components/Spin/LoadingSpin";
 import GetDataErrorResultView from "../../components/Result/GetDataError";
 import { News } from "../../models/news";
 import SearchBox from "../../components/Group/SearchBox";
+import { Pagination, Stack } from "@mui/material";
+import { colors } from "../../assets/styles/colors";
 
 const NewsPage = (): React.ReactElement => {
   const navigate = useNavigate();
-  const { isMobile, isNotMobile, isTablet, isDesktopOrLaptop } =
-    useResponsive();
+  const { isMobile } = useResponsive();
 
   const [selectedNews, setSelectedNews] = useRecoilState(SelectedNewsAtom);
 
   const [searchCategory, setSearchCategory] = useState("all");
   const [searchText, setSearchText] = useState("");
   const [filteredNews, setFilteredNews] = useState<News[]>([]);
+
+  // 페이지네이션 상태
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 10;
 
   const {
     data: news,
@@ -58,12 +63,16 @@ const NewsPage = (): React.ReactElement => {
     });
 
     setFilteredNews(result);
+    setPage(1); // 검색 시 첫 페이지로
   };
 
   // 검색어 clear
   const handleClear = () => {
     setSearchText(""); // 검색어 초기화
-    if (news) setFilteredNews(news); // 전체 데이터로 복구
+    if (news) {
+      setFilteredNews(news);
+      setPage(1); // 첫 페이지로
+    }
   };
 
   // 처음 로드 시 전체 데이터 표시
@@ -87,10 +96,18 @@ const NewsPage = (): React.ReactElement => {
     });
 
     setFilteredNews(result);
+    setPage(1);
   }, [searchCategory, news]);
 
   if (isLoading) return <LoadingSpin />;
   if (error) return <GetDataErrorResultView />;
+
+  // 페이지네이션 계산
+  const pageCount = Math.max(1, Math.ceil(filteredNews.length / itemsPerPage));
+  const currentData = filteredNews.slice(
+    (page - 1) * itemsPerPage,
+    page * itemsPerPage
+  );
 
   return (
     <div>
@@ -124,7 +141,7 @@ const NewsPage = (): React.ReactElement => {
         )}
 
         {/* 필터링된 뉴스 목록 */}
-        {filteredNews.map((item) => (
+        {currentData.map((item) => (
           <NewsListItem
             key={item.id}
             item={item}
@@ -134,6 +151,29 @@ const NewsPage = (): React.ReactElement => {
             }}
           />
         ))}
+
+        {/* 페이지네이션 */}
+        <Stack spacing={2} alignItems="center" sx={{ mt: 4 }}>
+          <Pagination
+            count={pageCount}
+            page={page}
+            onChange={(_, value) => setPage(value)}
+            sx={{
+              "& .MuiPaginationItem-root": {
+                color: colors.yiu.green, // 기본 글자색
+              },
+              "& .MuiPaginationItem-root.Mui-selected": {
+                backgroundColor: colors.yiu.green,
+                color: colors.gray.white,
+                "&:hover": {
+                  backgroundColor: colors.yiu.green,
+                },
+              },
+            }}
+            showFirstButton
+            showLastButton
+          />
+        </Stack>
       </div>
     </div>
   );
