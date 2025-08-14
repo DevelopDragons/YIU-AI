@@ -22,6 +22,7 @@ const NewsListItem = ({
   return (
     <div
       css={css({
+        height: 200,
         display: "flex",
         flexDirection: isMobile ? "column" : "row",
         justifyContent: "start",
@@ -38,17 +39,19 @@ const NewsListItem = ({
       onClick={onClick}
     >
       {/* 썸네일 */}
-      <img
-        // src={item.thumbnails}
-        src={`${process.env.REACT_APP_URL}/files/show?id=${item.thumbnails?.[0]?.id}`}
-        // src={boss}
-        css={css({
-          width: 300,
-          objectFit: "contain",
-          border: border1,
-          alignSelf: "center",
-        })}
-      />
+      {item.thumbnails?.[0] && (
+        <img
+          // src={item.thumbnails}
+          src={`${process.env.REACT_APP_URL}/files/show?id=${item.thumbnails?.[0]?.id}`}
+          // src={boss}
+          css={css({
+            width: 300,
+            objectFit: "contain",
+            border: border1,
+            alignSelf: "center",
+          })}
+        />
+      )}
       {/* 제목 및 정보 */}
       <div
         css={css({
