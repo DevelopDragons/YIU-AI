@@ -15,6 +15,7 @@ import { defaultAPI } from "../../services";
 import LoadingSpin from "../../components/Spin/LoadingSpin";
 import GetDataErrorResultView from "../../components/Result/GetDataError";
 import { News } from "../../models/news";
+import main_news_alt_image from "../../assets/images/main_news_alt_image.png";
 
 const CARD_MIN_WIDTH = 280;
 const CARD_GAP = 20;
@@ -56,11 +57,11 @@ const MainNews = (): React.ReactElement => {
     queryFn: async () => {
       const res = await defaultAPI.get(`/news`);
       return res.data;
-    }
+    },
   });
 
   if (isLoading) return <LoadingSpin />;
-  if (error) return <GetDataErrorResultView />
+  if (error) return <GetDataErrorResultView />;
 
   return (
     <div
@@ -93,7 +94,7 @@ const MainNews = (): React.ReactElement => {
               border: border1,
               borderRadius: 10,
               padding: 25,
-              height: 250,
+              height: 400,
               display: "flex",
               flexDirection: "column",
               gap: 20,
@@ -106,9 +107,26 @@ const MainNews = (): React.ReactElement => {
               navigate(`/news/${item.id}`);
             }}
           >
-            <div css={css({ fontWeight: 650, color: colors.yiu.green })}>
+            {/* <div css={css({ fontWeight: 650, color: colors.yiu.green })}>
               학부 뉴스
-            </div>
+            </div> */}
+            {/* 썸네일 */}
+            <img
+              // src={item.thumbnails}
+              src={
+                item.thumbnails?.[0]
+                  ? `${process.env.REACT_APP_URL}/files/show?id=${item.thumbnails?.[0]?.id}`
+                  : main_news_alt_image
+              }
+              // src={boss}
+              css={css({
+                width: 300,
+                height: 200,
+                objectFit: "contain",
+                // border: border1,
+                alignSelf: "center",
+              })}
+            />
             <div css={css({ fontSize: 20, fontWeight: 700 })}>{item.title}</div>
             <div
               css={css({
