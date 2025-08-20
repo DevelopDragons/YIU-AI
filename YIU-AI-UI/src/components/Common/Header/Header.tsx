@@ -15,6 +15,9 @@ import yiuInfo from "../../../assets/data/yiu_info";
 import { Menu, MenuItem } from "@mui/material";
 import { navItems } from "../../../models/menu";
 import DropdownMenu from "./DropdownMenu";
+import TextButton from "../../Button/TextButton";
+import { useResponsive } from "../../../hooks/ResponsiveContext";
+import { clearUser, isLoggedIn } from "../../../utils/session";
 
 type HeaderProps = {
   handleDrawerToggle: () => void;
@@ -22,7 +25,9 @@ type HeaderProps = {
 
 const Header: React.FC<HeaderProps> = ({ handleDrawerToggle }) => {
   const navigate = useNavigate();
-
+  // 반응형 화면
+  const { isMobile, isNotMobile, isTablet, isDesktopOrLaptop } =
+    useResponsive();
   const headerHeight = 85; // 고정된 헤더 높이 설정 (필요한 값으로 변경 가능)
 
   return (
@@ -31,29 +36,61 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle }) => {
       position="fixed"
       sx={{
         backgroundColor: colors.gray.white,
-        padding: 1.5,
-        height: headerHeight, // 고정된 높이 설정
-        minHeight: headerHeight, // 최소 높이 설정
+        boxShadow: "none",
       }}
     >
+      {/* 상단 얇은 바 (로그인/회원가입) */}
+      {isDesktopOrLaptop && (
+        <div
+          css={css({
+            display: "flex",
+            justifyContent: "flex-end",
+            backgroundColor: colors.gray.lightGray,
+            padding: "5px 30px",
+            gap: 20,
+          })}
+        >
+          {isLoggedIn() ? (
+            <TextButton title={"로그아웃"} onClick={() => clearUser()} />
+          ) : (
+            <>
+              <TextButton
+                title={"로그인"}
+                onClick={() => navigate("/sign-in")}
+              />
+              <TextButton
+                title={"회원가입"}
+                onClick={() => navigate("/sign-up")}
+              />
+            </>
+          )}
+        </div>
+      )}
+
+      {/* 기존 Header 툴바 */}
       <Toolbar
         sx={{
-          height: "100%", // Toolbar가 AppBar의 전체 높이를 차지하도록 설정
+          minHeight: 85,
+          height: 85,
           display: "flex",
-          justifyContent: { md: "space-between" },
+          justifyContent: isDesktopOrLaptop ? "space-between" : "flex-start",
           alignItems: "center",
+          px: 3,
         }}
       >
         {/* 모바일 메뉴 버튼 */}
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          edge="start"
-          onClick={handleDrawerToggle}
-          sx={{ mr: 2, display: { md: "none" }, color: colors.gray.black }}
-        >
-          <MenuIcon />
-        </IconButton>
+        {!isDesktopOrLaptop && (
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, color: colors.gray.black }}
+          >
+            <MenuIcon />
+          </IconButton>
+        )}
+
         {/* 로고 및 네임 */}
         <Box
           sx={{
@@ -62,9 +99,7 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle }) => {
             justifyContent: "start",
             alignItems: "center",
             gap: 1.5,
-            ":hover": {
-              cursor: "pointer",
-            },
+            ":hover": { cursor: "pointer" },
           }}
           onClick={() => navigate("/")}
         >
@@ -85,8 +120,9 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle }) => {
             {`${yiuInfo.name_ko} ${yiuAiInfo.name}`}
           </div>
         </Box>
+
         {/* 메뉴 */}
-        <Box sx={{ display: { xs: "none", sm: "none", md: "flex" }, gap: 1.5 }}>
+        <Box sx={{ display: isDesktopOrLaptop ? "flex" : "none", gap: 1.5 }}>
           {navItems.map((item) => (
             <DropdownMenu
               key={item.label}

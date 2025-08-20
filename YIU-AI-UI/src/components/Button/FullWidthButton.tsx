@@ -4,14 +4,13 @@ import { colors } from "../../assets/styles/colors";
 import { useResponsive } from "../../hooks/ResponsiveContext";
 import { Button } from "@mui/material";
 
-interface MediumButtonProps {
+interface FullWidthButtonProps {
   title: String;
   onClick: () => void;
   sxOverride?: object;
-  disabled?: boolean;
 }
 
-const MediumButton = (props: MediumButtonProps): React.ReactElement => {
+const FullWidthButton = (props: FullWidthButtonProps): React.ReactElement => {
   // 반응형 화면
   const { isMobile, isNotMobile, isTablet, isDesktopOrLaptop } =
     useResponsive();
@@ -19,24 +18,24 @@ const MediumButton = (props: MediumButtonProps): React.ReactElement => {
   return (
     <Button
       variant="contained"
-      color="primary"
-      size="medium"
       fullWidth
-      onClick={props.onClick}
-      disabled={props.disabled ?? false}
-      sx={{
-        fontWeight: 700,
+      size="large"
+      css={css({
+        height: 50,
         backgroundColor: colors.yiu.green,
-        ":hover": {
+        color: colors.gray.white,
+        fontWeight: 800,
+        borderRadius: 8,
+        padding: "10px 0",
+        "&:hover": {
           backgroundColor: colors.yiu.green_dark,
-          transition: "all 0.3s",
         },
-        ...props.sxOverride,
-      }}
+      })}
+      onClick={props.onClick}
     >
       {props.title}
     </Button>
   );
 };
 
-export default MediumButton;
+export default FullWidthButton;

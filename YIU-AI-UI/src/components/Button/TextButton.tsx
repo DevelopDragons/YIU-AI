@@ -4,39 +4,38 @@ import { colors } from "../../assets/styles/colors";
 import { useResponsive } from "../../hooks/ResponsiveContext";
 import { Button } from "@mui/material";
 
-interface MediumButtonProps {
+interface TextButtonProps {
   title: String;
   onClick: () => void;
   sxOverride?: object;
-  disabled?: boolean;
 }
 
-const MediumButton = (props: MediumButtonProps): React.ReactElement => {
+const TextButton = (props: TextButtonProps): React.ReactElement => {
   // 반응형 화면
   const { isMobile, isNotMobile, isTablet, isDesktopOrLaptop } =
     useResponsive();
 
   return (
     <Button
-      variant="contained"
-      color="primary"
-      size="medium"
-      fullWidth
-      onClick={props.onClick}
-      disabled={props.disabled ?? false}
+      disableRipple
+      disableElevation
+      size="small"
       sx={{
-        fontWeight: 700,
-        backgroundColor: colors.yiu.green,
-        ":hover": {
-          backgroundColor: colors.yiu.green_dark,
-          transition: "all 0.3s",
+        color: colors.gray.black,
+        fontSize: 13,
+        textTransform: "none", // 대문자 변환 방지
+        backgroundColor: "transparent", // 배경 제거
+        "&:hover": {
+          backgroundColor: "transparent", // hover 시 배경 없음
         },
+        cursor: "pointer",
         ...props.sxOverride,
       }}
+      onClick={props.onClick}
     >
       {props.title}
     </Button>
   );
 };
 
-export default MediumButton;
+export default TextButton;

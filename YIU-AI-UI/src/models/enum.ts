@@ -10,6 +10,10 @@ export enum UserEntrance {
   FRESH = "FRESH",
   TRANSFER = "TRANSFER",
 }
+export const UserEntranceLabel: Record<UserEntrance, string> = {
+  [UserEntrance.FRESH]: "신입",
+  [UserEntrance.TRANSFER]: "편입",
+};
 
 // [User(STUDENT) - 학생 재적 상태(UserStatus)
 export enum UserStatus {
@@ -19,6 +23,13 @@ export enum UserStatus {
   DISMISSAL = "DISMISSAL",
   ABSENCE = "ABSENCE",
 }
+export const UserStatusLabel: Record<UserStatus, string> = {
+  [UserStatus.STUDENT]: "재학",
+  [UserStatus.GRADUATE]: "졸업",
+  [UserStatus.COMPLETION]: "수료",
+  [UserStatus.DISMISSAL]: "제적",
+  [UserStatus.ABSENCE]: "휴학",
+};
 
 // [User(STUDENT) - 전공 구분(UserTrack)
 export enum UserTrack {
@@ -27,6 +38,12 @@ export enum UserTrack {
   MINOR = "MINOR",
   INTERDEPARTMENTAL = "INTERDEPARTMENTAL",
 }
+export const UserTrackLabel: Record<UserTrack, string> = {
+  [UserTrack.SINGLE]: "단일전공",
+  [UserTrack.DOUBLE]: "복수전공",
+  [UserTrack.MINOR]: "부전공",
+  [UserTrack.INTERDEPARTMENTAL]: "연계전공",
+};
 
 // [Member] - 역할 구분(MemberRole)
 export enum MemberRole {
@@ -66,3 +83,21 @@ export enum RequiredCategory {
   Required = "Required",
   Select = "Select",
 }
+
+// [UserDepartment - 학과/전공 구분]
+export enum UserDepartment {
+  COMPUTER_SCIENCE = "COMPUTER_SCIENCE",
+  LOGISTICS_STATISTICS = "LOGISTICS_STATISTICS",
+  AI_MAJOR = "AI_MAJOR",
+  BIGDATA_MAJOR = "BIGDATA_MAJOR",
+  AI_UNDERGRAD = "AI_UNDERGRAD",
+  AI_CONVERGENCE = "AI_CONVERGENCE",
+}
+export const UserDepartmentLabel: Record<UserDepartment, string> = {
+  [UserDepartment.COMPUTER_SCIENCE]: "컴퓨터과학",
+  [UserDepartment.LOGISTICS_STATISTICS]: "물류통계정보학",
+  [UserDepartment.AI_MAJOR]: "AI전공",
+  [UserDepartment.BIGDATA_MAJOR]: "빅데이터전공",
+  [UserDepartment.AI_UNDERGRAD]: "AI학부",
+  [UserDepartment.AI_CONVERGENCE]: "AI융합학부",
+};
