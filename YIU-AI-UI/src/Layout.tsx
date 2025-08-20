@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Header from "./components/Common/Header/Header";
 import React, { useState } from "react";
 import Footer from "./components/Common/Footer/Footer";
@@ -21,6 +21,7 @@ import { navItems } from "./models/menu";
 import { colors } from "./assets/styles/colors";
 import { border1 } from "./assets/styles/borderLine";
 import CloseIcon from "@mui/icons-material/Close";
+import TextButton from "./components/Button/TextButton";
 
 interface LayoutProps {
   className?: string;
@@ -30,6 +31,7 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ className, children }) => {
   const { isMobile, isNotMobile, isTablet, isDesktopOrLaptop } =
     useResponsive();
+  const navigate = useNavigate();
 
   const location = useLocation();
   const showHeader =
@@ -75,6 +77,7 @@ const Layout: React.FC<LayoutProps> = ({ className, children }) => {
         width: drawerWidth,
       }}
     >
+      {/* AI융합학부 + X 버튼 */}
       <div
         css={css({
           minHeight: 50,
@@ -95,6 +98,22 @@ const Layout: React.FC<LayoutProps> = ({ className, children }) => {
         {/* AI융합학부 */}
       </div>
       <Divider />
+      {/* 로그인 | 회원가입 */}
+      <div
+        css={css({
+          display: "flex",
+          justifyContent: "space-between",
+          backgroundColor: colors.gray.lightGray,
+          padding: "5px 30px",
+          gap: 20,
+        })}
+      >
+        <TextButton title={"로그인"} onClick={() => navigate("/sign-in")} />
+        {/* <span style={{ margin: "0 3px", color: colors.gray.darkGray }}>│</span> */}
+        <TextButton title={"회원가입"} onClick={() => navigate("/sign-up")} />
+      </div>
+      <Divider />
+      {/* 메뉴 */}
       <List disablePadding>
         {navItems.map((item, index) => (
           <div key={item.label}>
@@ -160,21 +179,26 @@ const Layout: React.FC<LayoutProps> = ({ className, children }) => {
 
   return (
     <div className={className}>
-      <Drawer
-        // container={container}
-        variant="temporary"
-        open={mobileOpen}
-        onClose={handleDrawerToggle}
-        ModalProps={{
-          keepMounted: true, // Better open performance on mobile.
-        }}
-        sx={{
-          display: { xs: "block", sm: "block", md: "none" },
-          "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
-        }}
-      >
-        {drawer}
-      </Drawer>
+      {!isDesktopOrLaptop && (
+        <Drawer
+          // container={container}
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+          sx={{
+            // display: { xs: "block", sm: "block", md: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
+          }}
+        >
+          {drawer}
+        </Drawer>
+      )}
       {/* Header */}
       <Header handleDrawerToggle={handleDrawerToggle} />
       {/* Body */}

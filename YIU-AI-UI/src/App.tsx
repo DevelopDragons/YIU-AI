@@ -24,6 +24,8 @@ import Research from "./pages/Menu/Research";
 import CurriculumPage from "./pages/Curriculum/Curriculum";
 import AuthRoute from "./utils/AuthRoute";
 import NewsForm from "./pages/Admin/News/NewsForm";
+import SignUpPage from "./pages/SignUp/SignUp";
+import SignInPage from "./pages/SignIn/SignIn";
 
 const App = () => {
   return (
@@ -37,6 +39,10 @@ const App = () => {
           <Routes>
             {/* 메인 */}
             <Route path="/*" element={<MainPage />} />
+            {/* 회원가입 */}
+            <Route path="/sign-up" element={<SignUpPage />} />
+            {/* 로그인 */}
+            <Route path="/sign-in" element={<SignInPage />} />
             {/* 학부 소개 */}
             <Route path="/faculty" element={<Faculty />}>
               <Route path="greetings" element={<GreetingPage />} />
