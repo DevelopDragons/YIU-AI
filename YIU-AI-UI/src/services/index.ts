@@ -21,7 +21,7 @@ export const authAPI: AxiosInstance = axios.create({
 // DELETE 요청 함수
 export const authDeleteAPI = async (url: string, data?: any) => {
   try {
-    const response = await authAPI.delete(url, { data });
+    const response = await authFileAPI.delete(url, { data });
     return response.data;
   } catch (error) {
     console.error("Error deleting data:", error);
@@ -71,6 +71,7 @@ export const refreshAccessToken = async (): Promise<boolean> => {
 };
 
 // Axios 인터셉터 설정 함수
+// Axios 인터셉터 설정 함수
 const setupAxiosInterceptors = (apiInstance: AxiosInstance): void => {
   apiInstance.interceptors.response.use(
     (response: AxiosResponse): AxiosResponse => response,
@@ -80,10 +81,17 @@ const setupAxiosInterceptors = (apiInstance: AxiosInstance): void => {
       if (error.response && error.response.status === 401) {
         const refreshSuccess: boolean = await refreshAccessToken();
         if (refreshSuccess) {
+          const newToken = sessionStorage.getItem("accessToken");
+
+          // 🔹 인스턴스 기본 헤더 업데이트
+          apiInstance.defaults.headers.Authorization = `Bearer ${newToken}`;
+
+          // 🔹 원래 요청에도 최신 토큰 적용
           originalRequest.headers = {
             ...originalRequest.headers,
-            Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+            Authorization: `Bearer ${newToken}`,
           };
+
           return apiInstance(originalRequest);
         }
       }

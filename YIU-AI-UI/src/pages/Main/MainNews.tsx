@@ -8,7 +8,7 @@ import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { useResponsive } from "../../hooks/ResponsiveContext";
 import { useRecoilState } from "recoil";
-import { SelectedNewsAtom } from "../../recoil/notice";
+import { SelectedNewsAtom } from "../../recoil/news";
 
 import { useQuery } from "@tanstack/react-query";
 import { defaultAPI } from "../../services";
@@ -56,7 +56,7 @@ const MainNews = (): React.ReactElement => {
     queryKey: ["news"],
     queryFn: async () => {
       const res = await defaultAPI.get(`/news`);
-      return res.data;
+      return res.data.slice().reverse();
     },
   });
 
@@ -110,7 +110,7 @@ const MainNews = (): React.ReactElement => {
             {/* <div css={css({ fontWeight: 650, color: colors.yiu.green })}>
               학부 뉴스
             </div> */}
-            {/* 썸네일 */}
+            {/* 섬네일 */}
             <img
               // src={item.thumbnails}
               src={
@@ -139,7 +139,7 @@ const MainNews = (): React.ReactElement => {
                 color: colors.gray.mediumGray,
               })}
             >
-              {item.contents}
+              {item.shorts}
             </div>
             <div
               css={css({

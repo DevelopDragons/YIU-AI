@@ -38,7 +38,7 @@ const NewsListItem = ({
       })}
       onClick={onClick}
     >
-      {/* 썸네일 */}
+      {/* 섬네일 */}
       {item.thumbnails?.[0] && (
         <img
           // src={item.thumbnails}

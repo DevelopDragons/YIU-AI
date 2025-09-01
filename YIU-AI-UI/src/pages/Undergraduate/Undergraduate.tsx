@@ -9,6 +9,7 @@ import { useResponsive } from "../../hooks/ResponsiveContext";
 import SideMenu from "../../components/Menu/SideMenu";
 import { navItems } from "../../models/menu";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { MAX_WIDTH } from "../../global";
 
 const UndergraduatePage = (): React.ReactElement => {
   // 반응형 화면
@@ -37,7 +38,7 @@ const UndergraduatePage = (): React.ReactElement => {
         css={css({
           display: "flex",
           padding: "5%",
-          maxWidth: 1400,
+          maxWidth: MAX_WIDTH,
           margin: "0 auto",
         })}
       >

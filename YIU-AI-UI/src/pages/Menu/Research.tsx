@@ -7,6 +7,7 @@ import { Outlet } from "react-router-dom";
 import PageHeader from "../../components/Text/PageHeader";
 import TitleBgImg from "../../assets/images/PageHeader/edusearch.jpg";
 import { useResponsive } from "../../hooks/ResponsiveContext";
+import { MAX_WIDTH } from '../../global';
 
 const Research = (): React.ReactElement => {
   const { isMobile, isNotMobile, isTablet, isDesktopOrLaptop } =
@@ -18,7 +19,7 @@ const Research = (): React.ReactElement => {
         css={css({
           display: "flex", // Flexbox를 사용하여 사이드바와 메인 콘텐츠를 나눔
           padding: "5%",
-          maxWidth: 1400,
+          maxWidth: MAX_WIDTH,
           margin: "0 auto",
           // minHeight: "100vh", // 화면을 꽉 채우도록 설정
         })}

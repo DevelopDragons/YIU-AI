@@ -12,6 +12,15 @@ code {
     "Courier New", monospace;
 }
 
+.ql-container {
+  min-height: 300px;
+}
+
+.ql-editor img {
+  max-width: 100%;
+  height: auto;
+}
+
 /* Pretendard */
 @font-face {
   font-family: "Pretendard";

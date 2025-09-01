@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./utils/ScrollToTop";
 import Layout from "./Layout";
 import MainPage from "./pages/Main/Main";
@@ -26,23 +26,38 @@ import AuthRoute from "./utils/AuthRoute";
 import NewsForm from "./pages/Admin/News/NewsForm";
 import SignUpPage from "./pages/SignUp/SignUp";
 import SignInPage from "./pages/SignIn/SignIn";
+import AdminPage from "./pages/Admin";
+import { UserRole } from "./models/enum";
+import NewsList from "./pages/Admin/News/NewsList";
+import AdminHome from "./pages/Admin/Home";
 
 const App = () => {
   return (
     <BrowserRouter>
       <ResponsiveProvider>
         <ScrollToTop />
-        {/* <Routes>
-        <Route path="/*" element={<MainPage />} />
-      </Routes> */}
-        <Layout>
-          <Routes>
-            {/* 메인 */}
+        <Routes>
+          {/* ---------------- Admin 페이지 ---------------- */}
+          <Route
+            path="/admin/*"
+            element={
+              <AuthRoute
+                element={<AdminPage />}
+                allowedRoles={[UserRole.ADMIN, UserRole.SUPER]}
+              />
+            }
+          >
+            <Route index element={<AdminHome />} />
+            <Route path="news" element={<NewsList />} />
+            <Route path="news/form" element={<NewsForm />} />
+          </Route>
+
+          {/* ---------------- 일반 페이지 (Layout 포함) ---------------- */}
+          <Route element={<Layout />}>
             <Route path="/*" element={<MainPage />} />
-            {/* 회원가입 */}
             <Route path="/sign-up" element={<SignUpPage />} />
-            {/* 로그인 */}
             <Route path="/sign-in" element={<SignInPage />} />
+
             {/* 학부 소개 */}
             <Route path="/faculty" element={<Faculty />}>
               <Route path="greetings" element={<GreetingPage />} />
@@ -54,6 +69,7 @@ const App = () => {
               <Route path="student-council" element={<StudentCouncilPage />} />
               <Route path="contact" element={<ContactPage />} />
             </Route>
+
             {/* 학부 과정 */}
             <Route path="/undergraduate" element={<UndergraduatePage />}>
               <Route path="intro" element={<IntroPage />} />
@@ -61,29 +77,21 @@ const App = () => {
               <Route path="convergence-md" element={<ConvergenceMajorPage />} />
               <Route path="graduation" element={<GraduationPage />} />
             </Route>
+
             {/* 대학원 과정 */}
             <Route path="/graduate" element={<GraduatePage />} />
+
             {/* 교육/연구 */}
             <Route path="/research" element={<Research />}>
               <Route path="lab" element={<LabPage />} />
               <Route path="mou" element={<MOUPage />} />
             </Route>
+
             {/* 학부 소식 */}
             <Route path="/news" element={<NewsPage />} />
             <Route path="/news/:id" element={<NewsDetailPage />} />
-            {/* 담당자 접근 가능<Admin> */}
-            {/* <Route
-              path="/news"
-              element={
-                <AuthRoute
-                  element={<NewsForm />}
-                  allowedRoles={[2, 3]}
-                />
-              }
-            /> */}
-            <Route path="/admin/news/form" element={<NewsForm />} />
-          </Routes>
-        </Layout>
+          </Route>
+        </Routes>
       </ResponsiveProvider>
     </BrowserRouter>
   );
