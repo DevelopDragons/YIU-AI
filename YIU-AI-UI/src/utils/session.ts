@@ -1,5 +1,7 @@
 // src/utils/session.ts
 
+import { useLocation } from "react-router-dom";
+import { UserRole } from "../models/enum";
 import { browser } from "./browser";
 
 // 저장된 user 객체 가져오기
@@ -20,6 +22,8 @@ export const getRefreshToken = (): string | null =>
 // 유저 저장
 export const setUser = (data: any) => {
   sessionStorage.setItem("user", JSON.stringify(data));
+  sessionStorage.setItem("accessToken", data.token.accessToken);
+  sessionStorage.setItem("refreshToken", data.token.refreshToken);
 };
 
 // 유저 삭제 (로그아웃 시)
@@ -34,4 +38,15 @@ export const clearUser = () => {
 export const isLoggedIn = (): boolean => {
   const token = getAccessToken();
   return token !== null && token !== "";
+};
+
+// ADMIN 권한 여부 확인
+export const isAdmin = (): boolean => {
+  const role = getUserRole();
+  return role === UserRole.ADMIN || role === UserRole.SUPER;
+};
+
+// ADMIN Console 확인
+export const isAdminMode = (path: string): boolean => {
+  return path.startsWith("/admin");
 };

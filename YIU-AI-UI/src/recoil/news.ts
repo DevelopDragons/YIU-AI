@@ -14,3 +14,8 @@ export const SelectedNewsAtom = atom<News>({
   default: temp_news[0],
   effects_UNSTABLE: [persistAtom],
 });
+
+export const selectedNewsState = atom<News | null>({
+  key: "selectedNewsState",
+  default: null,
+});

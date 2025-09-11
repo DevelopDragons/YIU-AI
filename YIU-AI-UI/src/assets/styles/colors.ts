@@ -16,6 +16,8 @@ export const colors = {
   basic: {
     correct: "#0094FF",
     error: "#F56647",
+    darkError: "#c45138",
+    // error: "#cc0000",
     footer_bg: "#333940",
     footer_text: "#d1d1d1",
   },
@@ -35,6 +37,7 @@ export const colors = {
     mediumGray: "#8B8B8B",
     mediumBrightGray: "#9D9D9D",
     white: "#FFFFFF",
+    background: "#f5f8fb",
   },
   status: {
     green: "#568A35",

@@ -1,21 +1,22 @@
 import { Navigate } from "react-router-dom";
+import { getUserRole, isLoggedIn } from "./session";
+import { UserRole } from "../models/enum";
 
 interface PrivateRouteProps {
   element: React.ReactElement;
-  allowedRoles?: number[];
+  allowedRoles?: UserRole[];
 }
 
 const AuthRoute = ({ element, allowedRoles }: PrivateRouteProps) => {
-  const userId = sessionStorage.getItem("id");
-  const userRole = parseInt(sessionStorage.getItem("role") || "1");
-
-  // 로그인 확인 (userId가 있는지 확인)
-  if (!userId) {
-    return <Navigate to="/login" replace />;
+  // 로그인 확인
+  if (!isLoggedIn()) {
+    return <Navigate to="/sign-in" replace />;
   }
 
-  // 특정 role이 필요한 경우 role 검사
-  if (allowedRoles && !allowedRoles.includes(userRole)) {
+  const role = getUserRole() as UserRole; // string -> UserRole로 타입 변환
+
+  // allowedRoles가 정의되어 있고, 현재 role이 포함되지 않으면 리다이렉트
+  if (allowedRoles && !allowedRoles.includes(role)) {
     return <Navigate to="/" replace />;
   }
 

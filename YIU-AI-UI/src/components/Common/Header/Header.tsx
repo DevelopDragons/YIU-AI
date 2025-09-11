@@ -6,7 +6,6 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
-import Button from "@mui/material/Button";
 import { yiuAiInfo } from "../../../assets/data/yiu_ai_info";
 import YIU_logo from "../../../assets/images/YIU_logo.png";
 import { useNavigate } from "react-router-dom";
@@ -17,7 +16,8 @@ import { navItems } from "../../../models/menu";
 import DropdownMenu from "./DropdownMenu";
 import TextButton from "../../Button/TextButton";
 import { useResponsive } from "../../../hooks/ResponsiveContext";
-import { clearUser, isLoggedIn } from "../../../utils/session";
+import { clearUser, isAdmin, isLoggedIn } from "../../../utils/session";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 
 type HeaderProps = {
   handleDrawerToggle: () => void;
@@ -51,7 +51,15 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle }) => {
           })}
         >
           {isLoggedIn() ? (
-            <TextButton title={"로그아웃"} onClick={() => clearUser()} />
+            <>
+              {isAdmin() && (
+                <TextButton
+                  title={"ADMIN"}
+                  onClick={() => navigate("/admin")}
+                />
+              )}
+              <TextButton title={"로그아웃"} onClick={() => clearUser()} />
+            </>
           ) : (
             <>
               <TextButton

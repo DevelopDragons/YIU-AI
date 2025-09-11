@@ -10,6 +10,7 @@ import MainNews from "./MainNews";
 import MainLab from "./MainLab";
 import MainMou from "./MainMOU";
 import SectionTitle from "../../components/Text/SectionTitle";
+import { MAX_WIDTH } from '../../global';
 
 const MainPage = (): React.ReactElement => {
   const { isMobile, isNotMobile, isTablet, isDesktopOrLaptop } =
@@ -21,7 +22,7 @@ const MainPage = (): React.ReactElement => {
       <div
         css={css({
           margin: "0 auto",
-          maxWidth: 1400,
+          maxWidth: MAX_WIDTH,
           display: "flex",
           flexDirection: "column",
           gap: 100,

@@ -27,3 +27,8 @@ declare module "*.pdf" {
   const value: string;
   export default value;
 }
+
+declare module "quill-image-resize-module-react" {
+  const ImageResize: any;
+  export default ImageResize;
+}

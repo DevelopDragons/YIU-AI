@@ -27,13 +27,13 @@ const StudentCouncilPage = (): React.ReactElement => {
     queryFn: async () => {
       const res = await defaultAPI(`/council`);
       return res.data;
-    }
-  })
+    },
+  });
 
-  if (isLoading) return <LoadingSpin />
-  if (error) return  <GetDataErrorResultView />
+  if (isLoading) return <LoadingSpin />;
+  if (error) return <GetDataErrorResultView />;
 
-  // 썸네일 + 슬로건 + 설명
+  // 섬네일 + 슬로건 + 설명
   const StudentCouncilIntro = () => {
     return (
       <div

@@ -4,7 +4,7 @@ import { css } from "@emotion/react";
 import PageHeader from "../../components/Text/PageHeader";
 import TitleBgImg from "../../assets/images/PageHeader/news.jpg";
 import { useResponsive } from "../../hooks/ResponsiveContext";
-import { SelectedNewsAtom } from "../../recoil/notice";
+import { SelectedNewsAtom } from "../../recoil/news";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import NewsListItem from "../../components/Group/NewsListItem";
@@ -39,7 +39,7 @@ const NewsPage = (): React.ReactElement => {
     queryKey: ["news"],
     queryFn: async () => {
       const res = await defaultAPI.get(`/news`);
-      return res.data;
+      return res.data.slice().reverse();
     },
   });
 

@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Outlet } from "react-router-dom";
 import Header from "./components/Common/Header/Header";
 import React, { useState } from "react";
 import Footer from "./components/Common/Footer/Footer";
@@ -23,38 +23,27 @@ import { border1 } from "./assets/styles/borderLine";
 import CloseIcon from "@mui/icons-material/Close";
 import TextButton from "./components/Button/TextButton";
 
-interface LayoutProps {
-  className?: string;
-  children: React.ReactNode;
-}
-
-const Layout: React.FC<LayoutProps> = ({ className, children }) => {
-  const { isMobile, isNotMobile, isTablet, isDesktopOrLaptop } =
-    useResponsive();
+const Layout: React.FC = () => {
+  const { isDesktopOrLaptop } = useResponsive();
   const navigate = useNavigate();
-
   const location = useLocation();
-  const showHeader =
-    location.pathname !== "/management" && location.pathname !== "/user";
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const drawerWidth = 240;
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
 
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
   const handleClick = (index: number) => {
     const item = navItems[index];
     if (!item.subMenu.length && item.link) {
-      window.location.href = item.link; // 또는 react-router로 이동하려면 useNavigate 사용
+      navigate(item.link);
       return;
     }
     setOpenIndex(openIndex === index ? null : index);
   };
-
-  const drawerWidth = 240;
 
   React.useEffect(() => {
     if (location.pathname === "/") {
@@ -72,12 +61,8 @@ const Layout: React.FC<LayoutProps> = ({ className, children }) => {
   }, [location.pathname]);
 
   const drawer = (
-    <Box
-      sx={{
-        width: drawerWidth,
-      }}
-    >
-      {/* AI융합학부 + X 버튼 */}
+    <Box sx={{ width: drawerWidth }}>
+      {/* Drawer 헤더 */}
       <div
         css={css({
           minHeight: 50,
@@ -95,9 +80,10 @@ const Layout: React.FC<LayoutProps> = ({ className, children }) => {
         <div onClick={handleDrawerToggle} css={css({ cursor: "pointer" })}>
           <CloseIcon />
         </div>
-        {/* AI융합학부 */}
       </div>
+
       <Divider />
+
       {/* 로그인 | 회원가입 */}
       <div
         css={css({
@@ -109,11 +95,12 @@ const Layout: React.FC<LayoutProps> = ({ className, children }) => {
         })}
       >
         <TextButton title={"로그인"} onClick={() => navigate("/sign-in")} />
-        {/* <span style={{ margin: "0 3px", color: colors.gray.darkGray }}>│</span> */}
         <TextButton title={"회원가입"} onClick={() => navigate("/sign-up")} />
       </div>
+
       <Divider />
-      {/* 메뉴 */}
+
+      {/* 메뉴 리스트 */}
       <List disablePadding>
         {navItems.map((item, index) => (
           <div key={item.label}>
@@ -151,7 +138,7 @@ const Layout: React.FC<LayoutProps> = ({ className, children }) => {
                 {item.subMenu.map((subItem) => (
                   <ListItem key={subItem.label} disablePadding>
                     <ListItemButton
-                      href={subItem.link}
+                      onClick={() => navigate(subItem.link)}
                       sx={{
                         textAlign: "left",
                         pl: 5,
@@ -173,23 +160,24 @@ const Layout: React.FC<LayoutProps> = ({ className, children }) => {
       </List>
     </Box>
   );
+  // --- 조건부 렌더링 처리 ---
+  const isAdminPage = location.pathname.startsWith("/admin");
 
-  // const container =
-  //   window !== undefined ? () => window().document.body : undefined;
-
+  if (isAdminPage) {
+    // AdminPage는 Layout UI 없이 Outlet만 렌더링
+    return <Outlet />;
+  }
   return (
-    <div className={className}>
+    <div>
       {!isDesktopOrLaptop && (
         <Drawer
-          // container={container}
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
-            // display: { xs: "block", sm: "block", md: "none" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
@@ -199,8 +187,10 @@ const Layout: React.FC<LayoutProps> = ({ className, children }) => {
           {drawer}
         </Drawer>
       )}
+
       {/* Header */}
       <Header handleDrawerToggle={handleDrawerToggle} />
+
       {/* Body */}
       <div
         style={{
@@ -209,8 +199,9 @@ const Layout: React.FC<LayoutProps> = ({ className, children }) => {
           whiteSpace: "pre-line",
         }}
       >
-        {children}
+        <Outlet />
       </div>
+
       {/* Footer */}
       <Footer />
     </div>
