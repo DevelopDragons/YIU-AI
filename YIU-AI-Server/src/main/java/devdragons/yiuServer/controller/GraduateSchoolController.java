@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/graduateSchool")
+@RequestMapping("/api/graduateSchool")
 @RequiredArgsConstructor
 public class GraduateSchoolController extends CommonController<GraduateSchoolResponseDto, GraduateSchoolRequestDto> {
     private final GraduateSchoolService graduateSchoolService;

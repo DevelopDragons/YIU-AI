@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/news")
+@RequestMapping("/api/news")
 @RequiredArgsConstructor
 public class NewsController extends CommonController<NewsResponseDto, NewsRequestDto> {
     private final NewsService newsService;

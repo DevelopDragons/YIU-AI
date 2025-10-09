@@ -22,7 +22,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Controller
-@RequestMapping("/userGraduation")
+@RequestMapping("/api/userGraduation")
 @RequiredArgsConstructor
 public class UserGraduationController {
     private final UserGraduationService userGraduationService;

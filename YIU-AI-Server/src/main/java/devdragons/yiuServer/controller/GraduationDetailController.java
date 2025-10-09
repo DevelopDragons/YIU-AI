@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-@RequestMapping("/graduationDetail")
+@RequestMapping("/api/graduationDetail")
 @RequiredArgsConstructor
 public class GraduationDetailController extends CommonController<GraduationDetailResponseDto, GraduationDetailRequestDto> {
     private final GraduationDetailService graduationDetailService;

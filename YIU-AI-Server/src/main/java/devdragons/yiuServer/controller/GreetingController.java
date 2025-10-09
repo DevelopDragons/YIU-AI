@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/greeting")
+@RequestMapping("/api/greeting")
 @RequiredArgsConstructor
 public class GreetingController extends CommonController<GreetingResponseDto, GreetingRequestDto>{
     private final GreetingService greetingService;
