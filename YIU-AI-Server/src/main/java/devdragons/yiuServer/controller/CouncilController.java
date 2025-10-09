@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/council")
+@RequestMapping("/api/council")
 @RequiredArgsConstructor
 public class CouncilController extends CommonController<CouncilResponseDto, CouncilRequestDto> {
     private final CouncilService councilService;

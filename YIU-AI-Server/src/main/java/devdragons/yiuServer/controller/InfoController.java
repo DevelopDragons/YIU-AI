@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/info")
+@RequestMapping("/api/info")
 @RequiredArgsConstructor
 public class InfoController extends CommonController<InfoResponseDto, InfoRequestDto> {
     private final InfoService infoService;

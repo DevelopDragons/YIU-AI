@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/microdegreeSubject")
+@RequestMapping("/api/microdegreeSubject")
 @RequiredArgsConstructor
 public class MicroDegreeSubjectController extends CommonController<MicroDegreeSubjectResponseDto, MicroDegreeSubjectRequestDto> {
     private final MicroDegreeSubjectService microDegreeSubjectService;

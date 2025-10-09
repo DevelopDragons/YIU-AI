@@ -25,7 +25,7 @@ import java.nio.file.Paths;
 import java.time.format.DateTimeFormatter;
 
 @Controller
-@RequestMapping("/files")
+@RequestMapping("/api/files")
 @RequiredArgsConstructor
 public class FileController {
     private final FilesRepository filesRepository;

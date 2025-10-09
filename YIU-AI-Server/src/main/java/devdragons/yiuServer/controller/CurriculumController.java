@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/curriculum")
+@RequestMapping("/api/curriculum")
 @RequiredArgsConstructor
 public class CurriculumController extends CommonController<CurriculumResponseDto, CurriculumRequestDto> {
     private final CurriculumService curriculumService;
