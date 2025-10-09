@@ -38,7 +38,7 @@ public class GraduationDetailService {
      * */
     public Boolean createGraduationDetail(GraduationDetailRequestDto requestDto) throws Exception {
         List<Object> requiredFields = Arrays.asList(
-                requestDto.getYear(), requestDto.getTitle(), requestDto.getContent()
+                requestDto.getYear(), requestDto.getTitle(), requestDto.getContent(), requestDto.getGraduationCategory()
         );
 
         CommonService.validateRequiredFields(requiredFields);
@@ -48,6 +48,7 @@ public class GraduationDetailService {
                     .year(requestDto.getYear())
                     .title(requestDto.getTitle())
                     .content(requestDto.getContent())
+                    .category(requestDto.getGraduationCategory())
                     .createdAt(LocalDateTime.now())
                     .updatedAt(LocalDateTime.now())
                     .build();
@@ -130,7 +131,7 @@ public class GraduationDetailService {
      * @description graduationDetail 조회
      * @author 김예서
      * @param year
-     * @return Boolean
+     * @return List<GraduationDetail>
      * */
     public List<GraduationDetail> getGraduationDetailByYear(Integer year) throws Exception {
         List<GraduationDetail> graduationDetails = graduationDetailRepository.findAllByYear(year);
