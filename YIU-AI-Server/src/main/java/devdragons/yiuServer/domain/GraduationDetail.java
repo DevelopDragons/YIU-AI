@@ -1,5 +1,6 @@
 package devdragons.yiuServer.domain;
 
+import devdragons.yiuServer.domain.state.GraduationCategory;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,6 +25,9 @@ public class GraduationDetail {
 
     @Column(nullable = false)
     private String content;
+
+    @Column(nullable = false)
+    private GraduationCategory category;
 
     @Column
     private LocalDateTime createdAt;
