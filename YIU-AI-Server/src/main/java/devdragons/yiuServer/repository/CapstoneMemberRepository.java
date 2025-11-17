@@ -1,0 +1,11 @@
+package devdragons.yiuServer.repository;
+
+import devdragons.yiuServer.domain.CapstoneMember;
+import devdragons.yiuServer.domain.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface CapstoneMemberRepository extends JpaRepository<CapstoneMember, Integer> {
+    Boolean existsCapstoneMemberByUser(User user);
+}

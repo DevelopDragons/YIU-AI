@@ -45,7 +45,7 @@ public class SecurityConfig {
                     CorsConfigurationSource source = request -> {
                         CorsConfiguration config = new CorsConfiguration();
                         config.setAllowCredentials(true);
-                        config.setAllowedOrigins(List.of("http://localhost:3000"));
+                        config.setAllowedOrigins(List.of("http://ai.yongin.ac.kr"));
                         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
                         config.setAllowedHeaders(List.of("*"));
                         config.setExposedHeaders(List.of("*"));
@@ -57,8 +57,8 @@ public class SecurityConfig {
                         configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/login", "/api/register", "/api/register/email", "/api/pwd/email", "/api/pwd/change", "/api/token/refresh", "/api/main", "/api/council", "/api/news", "/api/info", "/api/mou", "/api/member", "/api/graduateSchool", "/api/microdegree", "/api/curriculum", "/api/files/*", "/api/microdegree", "/api/microdegreeSubject", "/api/greeting", "/api/graduation", "/api/news/search", "/api/news/search-title", "/api/news/search-contents", "/api/student", "/api/student/all", "/api/student/search", "/api/graduationDetail", "/api/userGraduation").permitAll()
-                        .requestMatchers("/api/council/admin", "/api/news/admin", "/api/info/admin", "/api/mou/admin", "/api/member/admin", "/api/graduateSchool/admin", "/api/microdegree/admin", "/api/curriculum/admin", "/api/microdegreeSubject/admin", "/api/greeting/admin", "/api/graduation/admin", "/api/graduationDetail/admin", "/api/userGraduation/admin").hasAnyRole("ADMIN", "SUPER")
+                        .requestMatchers("/api/login", "/api/register", "/api/register/email", "/api/pwd/email", "/api/pwd/change", "/api/token/refresh", "/api/main", "/api/council", "/api/news", "/api/info", "/api/mou", "/api/member", "/api/graduateSchool", "/api/microdegree", "/api/curriculum", "/api/files/*", "/api/microdegree", "/api/microdegreeSubject", "/api/greeting", "/api/graduation", "/api/news/search", "/api/news/search-title", "/api/news/search-contents", "/api/student", "/api/student/all", "/api/student/search", "/api/graduationDetail", "/api/userGraduation", "/api/capstone").permitAll()
+                        .requestMatchers("/api/council/admin", "/api/news/admin", "/api/info/admin", "/api/mou/admin", "/api/member/admin", "/api/graduateSchool/admin", "/api/microdegree/admin", "/api/curriculum/admin", "/api/microdegreeSubject/admin", "/api/greeting/admin", "/api/graduation/admin", "/api/graduationDetail/admin", "/api/userGraduation/admin", "/api/capstone/admin").hasAnyRole("ADMIN", "SUPER")
                         .anyRequest().authenticated())
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider),
                         UsernamePasswordAuthenticationFilter.class)
