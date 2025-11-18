@@ -12,4 +12,5 @@ public interface FilesRepository extends JpaRepository<Files, Integer> {
     List<Files> findAllByTypeAndTypeId(FileType type, Integer typeId);
     void deleteAllByTypeAndTypeId(FileType type, Integer typeId);
     List<Files> findAllByTypeAndCategory(FileType type, String category);
+    Boolean existsAllByTypeAndTypeId(FileType type, Integer typeId);
 }
