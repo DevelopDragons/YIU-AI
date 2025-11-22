@@ -22,12 +22,12 @@ public class CapstoneController extends CommonController<CapstoneResponseDto, Ca
 
     @Override
     protected boolean updateEntity(Integer id, CapstoneRequestDto requestDto) throws Exception {
-        return false;
+        return capstoneService.updateCapstone(id, requestDto);
     }
 
     @Override
     protected boolean deleteEntity(Integer id) throws Exception {
-        return false;
+        return capstoneService.deleteCapstone(id);
     }
 
     @Override
