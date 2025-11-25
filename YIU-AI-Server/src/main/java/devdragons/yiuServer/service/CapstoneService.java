@@ -94,6 +94,8 @@ public class CapstoneService {
 
                 capstoneMemberRepository.save(capstoneMember);
             }
+        } catch (CustomException e) {
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
@@ -167,6 +169,8 @@ public class CapstoneService {
                 capstoneMemberRepository.save(capstoneMember);
             }
             return true;
+        } catch (CustomException e) {
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
