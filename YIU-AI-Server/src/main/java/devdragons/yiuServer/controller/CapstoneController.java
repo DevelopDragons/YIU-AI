@@ -4,8 +4,12 @@ import devdragons.yiuServer.dto.request.CapstoneRequestDto;
 import devdragons.yiuServer.dto.response.CapstoneResponseDto;
 import devdragons.yiuServer.service.CapstoneService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -32,6 +36,11 @@ public class CapstoneController extends CommonController<CapstoneResponseDto, Ca
 
     @Override
     protected List<CapstoneResponseDto> getEntities() throws Exception {
-        return List.of();
+        return capstoneService.getCapstone();
+    }
+
+    @GetMapping("/year")
+    public ResponseEntity<List<CapstoneResponseDto>> getYear(@RequestParam("year") int year) throws Exception {
+        return new ResponseEntity<>(capstoneService.getCapstoneByYear(year), HttpStatus.OK);
     }
 }
