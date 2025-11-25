@@ -7,6 +7,7 @@ import devdragons.yiuServer.domain.User;
 import devdragons.yiuServer.domain.state.FileType;
 import devdragons.yiuServer.dto.request.CapstoneRequestDto;
 import devdragons.yiuServer.dto.request.FileRequestDto;
+import devdragons.yiuServer.dto.response.CapstoneResponseDto;
 import devdragons.yiuServer.exception.CustomException;
 import devdragons.yiuServer.exception.ErrorCode;
 import devdragons.yiuServer.repository.CapstoneMemberRepository;
@@ -19,8 +20,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -201,5 +204,60 @@ public class CapstoneService {
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
         }
 
+    }
+
+    /*
+     * @description 캡스톤 팀 및 멤버 조회 (전체)
+     * @author 김예서
+     * @return List<CapstoneResponseDto>
+     * */
+    public List<CapstoneResponseDto> getCapstone() throws Exception {
+        List<Capstone> capstones = capstoneRepository.findAll();
+        List<Files> thumbnails = filesRepository.findAllByTypeAndCategory(FileType.CAPSTONE, "thumbnail");
+        List<CapstoneMember> members = capstoneMemberRepository.findAll();
+
+        List<CapstoneResponseDto> getListDto = new ArrayList<>();
+        for(Capstone capstone : capstones) {
+            List<Files> filteredThumbnails = thumbnails.stream()
+                    .filter(files -> files.getTypeId().equals(capstone.getId()))
+                    .collect(Collectors.toList());
+
+            List<CapstoneMember> filteredMembers = members.stream()
+                    .filter(capstoneMember -> capstoneMember.getCapstone().equals(capstone))
+                    .collect(Collectors.toList());
+
+            getListDto.add(CapstoneResponseDto.GetCapstoneDto(capstone, filteredThumbnails, filteredMembers));
+        }
+
+        return getListDto;
+    }
+
+    /*
+     * @description 캡스톤 팀 및 멤버 조회 (연도별)
+     * @author 김예서
+     * @return List<CapstoneResponseDto>
+     * */
+    public List<CapstoneResponseDto> getCapstoneByYear(Integer year) throws Exception {
+        LocalDateTime start = LocalDateTime.of(year, 1, 1, 0, 0);
+        LocalDateTime end = LocalDateTime.of(year, 12, 31, 23, 59);
+        List<Capstone> capstones = capstoneRepository.findAllByCreatedAtBetween(start, end);
+
+        List<Files> thumbnails = filesRepository.findAllByTypeAndCategory(FileType.CAPSTONE, "thumbnail");
+        List<CapstoneMember> members = capstoneMemberRepository.findAll();
+
+        List<CapstoneResponseDto> getListDto = new ArrayList<>();
+        for(Capstone capstone : capstones) {
+            List<Files> filteredThumbnails = thumbnails.stream()
+                    .filter(files -> files.getTypeId().equals(capstone.getId()))
+                    .collect(Collectors.toList());
+
+            List<CapstoneMember> filteredMembers = members.stream()
+                    .filter(capstoneMember -> capstoneMember.getCapstone().equals(capstone))
+                    .collect(Collectors.toList());
+
+            getListDto.add(CapstoneResponseDto.GetCapstoneDto(capstone, filteredThumbnails, filteredMembers));
+        }
+
+        return getListDto;
     }
 }
