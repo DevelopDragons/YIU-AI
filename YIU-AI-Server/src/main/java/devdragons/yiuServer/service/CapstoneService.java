@@ -44,7 +44,7 @@ public class CapstoneService {
      * */
     public Boolean createCapstone(CapstoneRequestDto requestDto) throws Exception {
         List<Object> requiredFields = Arrays.asList(
-                requestDto.getTeamName(), requestDto.getProfessor(), requestDto.getTopic(), requestDto.getDescription(), requestDto.getLink(), requestDto.getUsers()
+                requestDto.getTeamName(), requestDto.getProfessor(), requestDto.getTopic(), requestDto.getUsers()
         );
 
         CommonService.validateRequiredFields(requiredFields);
@@ -117,7 +117,7 @@ public class CapstoneService {
         List<User> users = requestDto.getUsers();
 
         List<Object> requiredFields = Arrays.asList(
-                requestDto.getTeamName(), requestDto.getProfessor(), requestDto.getTopic(), requestDto.getDescription(), requestDto.getLink(), requestDto.getUsers()
+                requestDto.getTeamName(), requestDto.getProfessor(), requestDto.getTopic(), requestDto.getUsers()
         );
 
         CommonService.validateRequiredFields(requiredFields);
