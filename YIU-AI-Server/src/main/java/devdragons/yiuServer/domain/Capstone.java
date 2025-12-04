@@ -16,16 +16,16 @@ public class Capstone {
     @Column(unique = true)
     private Integer id;
 
-    @Column
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String teamName;
 
-    @Column
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String professor;
 
-    @Column
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String topic;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column
     private String description;
 
     @Column
