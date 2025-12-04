@@ -72,7 +72,7 @@ public class CapstoneService {
 
             for(int i=0; i<users.size(); i++) {
                 // 없는 사용자일 경우 에러 발생
-                if(!userRepository.existsById(users.get(i).getId())) {
+                if(users.get(i) == null) {
                     throw new CustomException(ErrorCode.NOT_EXIST_ID);
                 }
 
@@ -146,7 +146,7 @@ public class CapstoneService {
 
             for(int i=0; i<users.size(); i++) {
                 // 없는 사용자일 경우 에러 발생
-                if(!userRepository.existsById(users.get(i).getId())) {
+                if(users.get(i) == null) {
                     throw new CustomException(ErrorCode.NOT_EXIST_ID);
                 }
 
