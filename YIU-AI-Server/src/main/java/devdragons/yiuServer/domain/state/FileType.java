@@ -13,5 +13,6 @@ public enum FileType {
     GREETING,
     USERGRADUATION,
     GRADUATE,
-    CAPSTONE;
+    CAPSTONE,
+    CAPSTONEPROCESS;
 }
